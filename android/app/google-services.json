@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925160042592",
+    "project_id": "project3-d568a",
+    "storage_bucket": "project3-d568a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925160042592:android:69b1360e279fc00f025305",
+        "android_client_info": {
+          "package_name": "com.mindfullyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925160042592-2sgbec8rn0b8nm77inkte6omcpev12m7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD44qmaELaC1pCt4qdaVffhr2gbJhmNAYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925160042592-2sgbec8rn0b8nm77inkte6omcpev12m7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
