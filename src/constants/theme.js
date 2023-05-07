@@ -32,6 +32,7 @@ export const SIZES = {
   h2: 22,
   h3: 20,
   h4: 18,
+  h5: 14,
   body1: 30,
   body2: 20,
   body3: 16,
@@ -73,6 +74,13 @@ export const FONTS = {
   h4: {
     fontFamily: 'Poppins-Medium',
     fontSize: SIZES.h4,
+    color: COLORS.black,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
+  h5: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: SIZES.h5,
     color: COLORS.black,
     includeFontPadding: false,
     textAlignVertical: 'center',

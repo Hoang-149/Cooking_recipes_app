@@ -1,12 +1,15 @@
 import {SafeAreaView} from 'react-native';
 import React from 'react';
-import {COLORS} from '../constants';
+import {COLORS, optionData, foodData} from '../constants';
 import HomeHeader from '../components/HomeHeader';
-import {Tab, Text, TabView} from '@rneui/themed';
-import Post from '../components/Post';
+import OptionList from '../components/OptionList';
+import MenuList from '../components/MenuList';
+import {useSelector} from 'react-redux';
 
-const Home = () => {
-  const [index, setIndex] = React.useState(0);
+const HomeScreen = ({navigation}) => {
+  const {user} = useSelector(state => state.userReducer);
+
+  // console.log(user);
 
   return (
     <SafeAreaView
@@ -16,28 +19,23 @@ const Home = () => {
         paddingTop: 2,
       }}>
       <HomeHeader />
-      <Tab
-        value={index}
-        onChange={e => setIndex(e)}
-        indicatorStyle={{
-          backgroundColor: 'white',
-          height: 3,
-        }}
-        variant="primary">
-        <Tab.Item title="Thực hiện" titleStyle={{fontSize: 12}} />
-        <Tab.Item title="Công thức" titleStyle={{fontSize: 12}} />
-      </Tab>
 
-      <TabView value={index} onChange={setIndex} animationType="spring">
-        <TabView.Item style={{width: '100%'}}>
-          <Text h1>Bài Post</Text>
-        </TabView.Item>
-        <TabView.Item style={{width: '100%'}}>
-          <Text h1>Bài Post</Text>
-        </TabView.Item>
-      </TabView>
+      <OptionList
+        categories={optionData}
+        // onSelectedCategory={onSelectedCategory}
+        // selectedCategory={selectedCategory}
+      />
+
+      <MenuList
+        navigation={navigation}
+        menu={foodData}
+        // onPressFavourite={addToFavourite}
+        // favorites={favorites}
+        // categories={categoryData}
+        // categorySelected={categorySelected}
+      />
     </SafeAreaView>
   );
 };
 
-export default Home;
+export default HomeScreen;

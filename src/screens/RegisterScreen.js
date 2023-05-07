@@ -33,13 +33,13 @@ const SignUp = ({navigation}) => {
     }
 
     const dataUser = {
-      username: name.value,
+      name: name.value,
       email: email.value,
       password: password.value,
       confirm_password: cfpassword.value,
     };
     // const dataUser = {
-    //   username: 'Thang122',
+    //   name: 'Thang122',
     //   email: 'Thang122@gmail.com',
     //   password: '123123123',
     //   confirm_password: '123123123',
@@ -55,6 +55,7 @@ const SignUp = ({navigation}) => {
         console.log(response.data);
         if (response.data.status === 200) {
           console.log(response.data.message);
+          navigation.navigate('LoginScreen');
         } else {
           console.log(response.data.message);
         }
@@ -63,21 +64,6 @@ const SignUp = ({navigation}) => {
         // handle the error
         console.log(error);
       });
-    // if (res.data.status === 200) {
-    //   console.log(res.data.message);
-    // } else {
-    //   console.log(res.data.message);
-    // }
-
-    // axios.get(`${API_URL}/sanctum/csrf-cookie`).then(response => {
-    //   authApi.postRegister(data).then(res => {
-    //     if (res.data.status === 200) {
-    //       console.log('Success', res.data.message, 'success');
-    //     } else {
-    //       console.log('error');
-    //     }
-    //   });
-    // });
 
     // navigation.reset({
     //   index: 0,

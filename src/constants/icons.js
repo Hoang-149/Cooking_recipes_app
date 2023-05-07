@@ -6,6 +6,9 @@ export const search = require('../assets/icons/search.png');
 export const burgers = require('../assets/icons/burgers.png');
 export const back = require('../assets/icons/arrow-back.png');
 export const star = require('../assets/icons/star.png');
+export const bell = require('../assets/icons/bell.png');
+export const comment = require('../assets/icons/comment.png');
+export const plus = require('../assets/icons/plus.png');
 
 export default {
   cutlery,
@@ -16,4 +19,7 @@ export default {
   burgers,
   back,
   star,
+  bell,
+  plus,
+  comment,
 };

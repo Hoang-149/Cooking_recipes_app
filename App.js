@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from './src/core/theme';
 
-import HomeScreen from './src/screens/HomeScreen';
+import HomeScreen from './src/screens/CommunityScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import StartScreen from './src/screens/StartScreen';

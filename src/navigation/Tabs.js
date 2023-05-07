@@ -5,7 +5,13 @@ import {
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
 import Svg, {Path} from 'react-native-svg';
-import {Home, CreatePost, Notifications, Profile} from '../screens/index';
+import {
+  CommunityScreen,
+  HomeScreen,
+  Notifications,
+  Profile,
+  CreateRecipe,
+} from '../screens/index';
 import {COLORS, icons} from '../constants';
 
 const Tab = createBottomTabNavigator();
@@ -74,12 +80,31 @@ const Tabs = () => {
       }}
       tabBar={props => <CustomTabBar props={props} />}>
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
               source={icons.cutlery}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.primary : COLORS.secondary,
+              }}
+            />
+          ),
+          headerShown: false,
+          tabBarButton: props => <TabBarCustomButton {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="CommunityScreen"
+        component={CommunityScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={icons.comment}
               resizeMode="contain"
               style={{
                 width: 28,
@@ -93,16 +118,16 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="CreatePost"
-        component={CreatePost}
+        name="CreateRecipe"
+        component={CreateRecipe}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
-              source={icons.like}
+              source={icons.plus}
               resizeMode="contain"
               style={{
-                width: 25,
-                height: 25,
+                width: 28,
+                height: 28,
                 tintColor: focused ? COLORS.primary : COLORS.secondary,
               }}
             />
@@ -117,7 +142,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <Image
-              source={icons.order}
+              source={icons.bell}
               resizeMode="contain"
               style={{
                 width: 30,

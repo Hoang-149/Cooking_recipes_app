@@ -50,47 +50,4 @@ export const foodData = [
     view: '199 lượt xem. 45p',
     icon: icons.burgers,
   },
-  {
-    id: 2,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-  {
-    id: 3,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-  {
-    id: 4,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-  {
-    id: 5,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-
-  {
-    id: 6,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-  {
-    id: 7,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
-  {
-    id: 8,
-    name: 'Canh ghẹ kim chi',
-    view: '199 lượt xem. 45p',
-    icon: icons.burgers,
-  },
 ];

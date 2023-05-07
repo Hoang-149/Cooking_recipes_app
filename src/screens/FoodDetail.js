@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {images, COLORS, SIZES, FONTS, icons} from '../constants';
@@ -83,88 +84,19 @@ const FoodDetail = ({navigation}) => {
             shadowOpacity: 0.1,
             shadowRadius: 3,
           }}>
-          <Text
+          <View
             style={{
-              ...FONTS.h1,
-              textAlign: 'center',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
               borderBottomWidth: 1,
               borderBottomColor: COLORS.lightGray3,
-            }}>
-            Bánh mỳ
-          </Text>
-          {/* <Text
-            style={{
-              ...FONTS.h4,
+              flexDirection: 'column',
               paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
-              color: COLORS.black,
-              textAlign: 'center',
-              borderBottomWidth: 1,
-              borderBottomColor: COLORS.lightGray3,
-            }}>
-            Cách làm:
-          </Text> */}
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
+              paddingHorizontal: SIZES.padding * 2,
             }}>
             <Text
               style={{
-                ...FONTS.h4,
-                marginLeft: SIZES.padding,
+                ...FONTS.h2,
               }}>
-              Nguyên liệu:
-            </Text>
-            <Text
-              style={{
-                ...FONTS.h4,
-                marginLeft: SIZES.padding,
-              }}>
-              xà lách, thịt heo, dưa leo
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
-            }}>
-            <Text
-              style={{
-                ...FONTS.h4,
-                marginLeft: SIZES.padding,
-              }}>
-              Cách làm:
-            </Text>
-            <Text
-              style={{
-                ...FONTS.h4,
-                marginLeft: SIZES.padding,
-              }}>
-              Ahihihihihihihihihihih
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
-            }}>
-            <Text
-              style={{
-                ...FONTS.h3,
-                color: COLORS.black,
-                marginLeft: SIZES.padding,
-              }}>
-              Đánh giá
+              Canh ghẹ kim chi
             </Text>
             <View
               style={{
@@ -187,8 +119,167 @@ const FoodDetail = ({navigation}) => {
               </Text>
             </View>
           </View>
+
+          <View
+            style={{
+              paddingHorizontal: SIZES.padding * 2,
+              paddingVertical: SIZES.padding,
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+                textAlign: 'justify',
+              }}>
+              Canh ghẹ kim chi món ăn có biến tấu độc đáo từ ghẹ và kim chi.Vị
+              ngọt tự nhiên của ghẹ kết hợp vị chua cay
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.padding * 2,
+              borderBottomWidth: 1,
+              borderBottomColor: COLORS.lightGray3,
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+                fontWeight: 'bold',
+              }}>
+              Thành phần
+            </Text>
+            <Text
+              style={{
+                ...FONTS.body5,
+                marginLeft: SIZES.padding,
+              }}>
+              Khẩu phần: 1 người
+            </Text>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: COLORS.lightGray3,
+              flexDirection: 'column',
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.padding * 2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+              }}>
+              Kim chi
+            </Text>
+            <Text
+              style={{
+                ...FONTS.h5,
+                marginLeft: SIZES.padding,
+              }}>
+              100 Gr
+            </Text>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: COLORS.lightGray3,
+              flexDirection: 'column',
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.padding * 2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+              }}>
+              Ghẹ đỏ
+            </Text>
+            <Text
+              style={{
+                ...FONTS.h5,
+                marginLeft: SIZES.padding,
+              }}>
+              1 con
+            </Text>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: COLORS.lightGray3,
+              flexDirection: 'column',
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.padding * 2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+              }}>
+              Rau tần ô(cải cúc)
+            </Text>
+            <Text
+              style={{
+                ...FONTS.h5,
+                marginLeft: SIZES.padding,
+              }}>
+              100 Gr
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.padding * 2,
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+                fontWeight: 'bold',
+              }}>
+              Hướng dẫn thực hiện
+            </Text>
+          </View>
+
+          <View
+            style={{
+              paddingHorizontal: SIZES.padding * 2,
+            }}>
+            <Text
+              style={{
+                ...FONTS.h5,
+                textAlign: 'justify',
+              }}>
+              1. Đầu tiên, cho 1 muỗng canh dầu ăn vào nồi đợi nóng, trút 400gr
+              kim chi đã cắt thành miếng vừa ăn vào xào.
+            </Text>
+            {/* <Text
+              style={{
+                ...FONTS.h5,
+                paddingVertical: SIZES.padding,
+
+                textAlign: 'justify',
+              }}>
+              1. Canh ghẹ kim chi món ăn có biến tấu độc đáo từ ghẹ và kim
+              chi.Vị ngọt tự nhiên của ghẹ kết hợp vị chua cay
+            </Text>
+            <Text
+              style={{
+                ...FONTS.h5,
+                textAlign: 'justify',
+              }}>
+              1. Canh ghẹ kim chi món ăn có biến tấu độc đáo từ ghẹ và kim
+              chi.Vị ngọt tự nhiên của ghẹ kết hợp vị chua cay
+            </Text> */}
+          </View>
+
           <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
-            <CustomButton text={'LƯU'} onPressButton={() => addToCart()} />
+            <CustomButton text={'Chia sẻ'} onPressButton={() => addToCart()} />
           </View>
         </View>
       </>

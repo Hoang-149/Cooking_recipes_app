@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Alert} from 'react-native';
 import {Text} from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
@@ -11,14 +11,13 @@ import {theme} from '../core/theme';
 import {emailValidator} from '../helpers/emailValidator';
 import {passwordValidator} from '../helpers/passwordValidator';
 
-import {signInWithEmailAndPassword} from 'firebase/auth';
-import auth from '@react-native-firebase/auth';
-
 import {setUser} from '../redux/actions';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
 
 const SignIn = ({navigation}) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
 
@@ -46,7 +45,11 @@ const SignIn = ({navigation}) => {
           console.log(response.data);
           if (response.data.status === 200) {
             console.log(response.data.message);
-            navigation.navigate('HomeScreen');
+            navigation.navigate('Tabs');
+            console.log(response.data.user);
+            dispatch(setUser(response.data.user));
+
+            // Alert.alert('ahihi');
           } else {
             console.log(response.data.message);
           }
@@ -55,16 +58,6 @@ const SignIn = ({navigation}) => {
           // handle the error
           console.log(error);
         });
-
-      // let response = await auth().signInWithEmailAndPassword(
-      //   email.value,
-      //   password.value,
-      // );
-      // if (response && response.user) {
-      //   dispatch(setUser(response.user));
-      //   navigation.navigate('HomeScreen');
-      //   console.log('Successfully signed in');
-      // }
     } catch (e) {
       console.log('Error', e.message);
     }

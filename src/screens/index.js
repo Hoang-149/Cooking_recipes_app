@@ -1,6 +1,7 @@
-import Home from './HomeScreen';
-import CreatePost from './CreatePost';
+import CommunityScreen from './CommunityScreen';
+import HomeScreen from './HomeScreen';
 import Notifications from './Notifications';
 import Profile from './ProfileScreen';
+import CreateRecipe from './CreateRecipe';
 
-export {Home, CreatePost, Notifications, Profile};
+export {CommunityScreen, HomeScreen, Notifications, Profile, CreateRecipe};
