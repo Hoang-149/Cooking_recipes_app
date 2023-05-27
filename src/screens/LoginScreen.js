@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, StyleSheet, View, Alert} from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
 import {Text} from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
@@ -14,6 +20,7 @@ import {passwordValidator} from '../helpers/passwordValidator';
 import {setUser} from '../redux/actions';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
+import FoodApi from '../constants/option';
 
 const SignIn = ({navigation}) => {
   const dispatch = useDispatch();
@@ -21,9 +28,8 @@ const SignIn = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
 
-  // const dispatch = useDispatch();
-
   const onLoginPressed = async () => {
+    // console.log('duoc');
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
@@ -37,30 +43,18 @@ const SignIn = ({navigation}) => {
       password: password.value,
     };
 
-    try {
-      const res = axios
-        .post(`http://10.0.2.2:8000/api/login`, dataUser)
-        .then(response => {
-          // handle the response data
-          console.log(response.data);
-          if (response.data.status === 200) {
-            console.log(response.data.message);
-            navigation.navigate('Tabs');
-            console.log(response.data.user);
-            dispatch(setUser(response.data.user));
-
-            // Alert.alert('ahihi');
-          } else {
-            console.log(response.data.message);
-          }
-        })
-        .catch(error => {
-          // handle the error
-          console.log(error);
-        });
-    } catch (e) {
-      console.log('Error', e.message);
-    }
+    FoodApi.postLoginUser(dataUser).then(response => {
+      if (response.data.status === 200) {
+        // console.log(response.data.message);
+        navigation.navigate('Tabs');
+        // console.log(response.data.user);
+        dispatch(setUser(response.data.user));
+        ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+      } else {
+        console.log(response.data.message);
+        ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+      }
+    });
   };
 
   return (

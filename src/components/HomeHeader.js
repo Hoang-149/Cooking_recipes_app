@@ -1,16 +1,30 @@
 import {View, Text, Image, TextInput, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {images, COLORS, SIZES, FONTS, icons} from '../constants';
-// import CartIcon from './CartIcon';
+import {DATABASE_URL_IMG} from '../constants/database';
+import SearchBar from 'react-native-dynamic-search-bar';
+import FoodApi from '../constants/option';
+import {useNavigation} from '@react-navigation/native';
 
-const HomeHeader = ({navigation, searchMenu}) => {
+const HomeHeader = ({searchMenu, avatar}) => {
+  const navigation = useNavigation();
+
+  const [searchValue, setSearchValue] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const searchCuisine = text => {
+    navigation.navigate('AllCuisineScreen', {value: true});
+    // setSearchValue([]);
+  };
+
   return (
     <View
       style={{
         flexDirection: 'row',
         height: 50,
-        paddingHorizontal: 12,
+        paddingHorizontal: SIZES.padding,
         alignItems: 'center',
+        marginRight: SIZES.padding,
       }}>
       <TouchableOpacity
         style={{
@@ -18,37 +32,32 @@ const HomeHeader = ({navigation, searchMenu}) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image
-          source={images.avatar}
-          style={{width: 35, height: 35, borderRadius: SIZES.radius}}
-        />
+        {avatar ? (
+          <Image
+            source={{uri: `${DATABASE_URL_IMG}/users/${avatar}`}}
+            style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+          />
+        ) : (
+          <Image
+            source={icons.user}
+            style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+          />
+        )}
       </TouchableOpacity>
-      <View
-        style={{
-          backgroundColor: COLORS.lightGray3,
-          flex: 1,
-          borderRadius: SIZES.radius,
-          marginHorizontal: 20,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Image
-          source={icons.search}
-          style={{
-            width: 20,
-            height: 20,
-            marginStart: 12,
-            marginEnd: 8,
-            tintColor: COLORS.darkgray,
-          }}
-        />
-        <TextInput
-          placeholder="Tìm theo công thức, nguyên liệu"
-          style={{...FONTS.h5}}
-          onChangeText={text => searchMenu(text)}
-        />
-      </View>
-      {/* <CartIcon navigation={navigation} /> */}
+
+      <SearchBar
+        placeholder="Tìm theo công thức, nguyên liệu"
+        // onChangeText={text => {
+        //   setSearchValue(text);
+        // }}
+        // onClearPress={() => {
+        //   console.log('cancel');
+        // }}
+        // onFocus={() => navigation.navigate('AllCuisineScreen')}
+        // onSearchPress={() => searchCuisine(searchValue)}
+        cancelIconColor="white"
+        onFocus={() => searchCuisine()}
+      />
     </View>
   );
 };

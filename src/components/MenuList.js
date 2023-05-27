@@ -7,15 +7,17 @@ import {
   FlatList,
 } from 'react-native';
 import React from 'react';
-import {images, COLORS, SIZES, FONTS, icons} from '../constants';
+import {images, COLORS, SIZES, FONTS, icons, DATABASE_URL} from '../constants';
+import {DATABASE_URL_IMG} from '../constants/database';
 
 const MenuList = ({
   navigation,
   menu,
-  // onPressFavourite,
-  // favorites,
-  // categorySelected,
-  // categories,
+  onPressFavourite,
+  user,
+  like,
+  categorySelected,
+  categories,
 }) => {
   function getCategoryNameById(id) {
     let category = categories.filter(a => a.id == id);
@@ -25,15 +27,22 @@ const MenuList = ({
   }
 
   const renderItem = ({item}) => {
+    // console.log(item.id_cuisine);
+    const tt = like
+      ? like
+      : item?.favourite?.find(record => record.id_user === user);
+    // console.log(tt);
+    // console.log(item.favourite_count);
+
     return (
       <TouchableOpacity
-        // onPress={() =>
-        //   navigation.navigate('Restaurant', {
-        //     currentItem: item,
-        //     currentCategory: getCategoryNameById(item.category),
-        //   })
-        // }
-        onPress={() => navigation.navigate('FoodDetail')}
+        onPress={() =>
+          navigation.navigate('FoodDetail', {
+            currentItem: item,
+            like: like,
+            idCuisine: item.id_cuisine,
+          })
+        }
         style={{
           width: SIZES.width * 0.5 - 24,
           height: 200,
@@ -44,7 +53,10 @@ const MenuList = ({
           margin: 8,
         }}>
         <Image
-          source={require('../assets/images/burger.png')}
+          source={{
+            uri: `${DATABASE_URL_IMG}/cuisine/${item?.image}`,
+            // cache: 'force-cache',
+          }}
           resizeMode="contain"
           style={{width: '70%', height: '70%'}}
         />
@@ -66,7 +78,7 @@ const MenuList = ({
               ...FONTS.body3,
               color: COLORS.primary,
             }}>
-            {item.view}
+            {item.duration} phút
           </Text>
         </View>
         <TouchableOpacity
@@ -74,21 +86,32 @@ const MenuList = ({
             top: 14,
             right: 14,
             position: 'absolute',
+            flexDirection: 'row',
           }}
-          onPress={() => {
-            onPressFavourite(item);
-          }}>
+          // onPress={() => {
+          //   onPressFavourite(tt);
+          // }}
+        >
           <Image
             source={icons.like}
             style={{
               width: 20,
               height: 20,
-              tintColor: COLORS.darkgray,
-              // tintColor: favorites.includes(item.name)
-              //   ? 'red'
-              //   : COLORS.darkgray,
+              tintColor: tt ? 'red' : COLORS.darkgray,
             }}
           />
+          {item.favourite_count > 0 ? (
+            <Text
+              style={{
+                ...FONTS.body3,
+                color: 'black',
+                paddingLeft: SIZES.padding * 0.3,
+              }}>
+              {item.favourite_count}
+            </Text>
+          ) : (
+            ''
+          )}
         </TouchableOpacity>
       </TouchableOpacity>
     );
@@ -101,9 +124,7 @@ const MenuList = ({
           Món ăn nổi bật
         </Text>
       ) : null} */}
-      <Text style={{...FONTS.h3, paddingLeft: 16, paddingBottom: 8}}>
-        Món ăn nổi bật
-      </Text>
+
       <FlatList
         data={menu}
         numColumns={2}

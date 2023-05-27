@@ -1,32 +1,68 @@
+import {Linking} from 'react-native';
+
 export function nameValidator(name) {
-  if (!name) return "Name can't be empty.";
+  if (!name) return 'Tên công thức không thể để trống.';
   return '';
 }
 export function categoryValidator(category) {
-  if (!category) return "Category can't be empty.";
+  if (!category) return 'Danh mục không thể để trống.';
   return '';
 }
-export function difficultyValidator(difficulty) {
-  if (!difficulty) return "Difficulty can't be empty.";
+export function commentValidator(comment) {
+  if (!comment) return 'Comment không thể để trống.';
   return '';
 }
 export function durationValidator(duration) {
-  if (!duration) return "Duration can't be empty.";
+  if (!duration) return 'Thời gian không thể để trống.';
   return '';
 }
 export function ingredientValidator(ingredient) {
-  if (!ingredient) return "Ingredient can't be empty.";
+  if (!ingredient) return 'Nguyên liệu không thể để trống.';
   return '';
 }
 export function stepsValidator(steps) {
-  if (!steps) return "Steps can't be empty.";
+  if (!steps) return 'Các bước thực hiện không thể để trống.';
   return '';
 }
-export function urlWebsiteValidator(urlWebsite) {
-  if (!urlWebsite) return "Link Website can't be empty.";
-  return '';
-}
-export function urlYoutubeValidator(urlYoutube) {
-  if (!urlYoutube) return "Link Youtube can't be empty.";
-  return '';
-}
+// export function urlWebsiteValidator(urlWebsite) {
+//   if (!urlWebsite) return "Link Website không thể để trống.";
+//   return '';
+// }
+
+export const urlWebsiteValidator = url => {
+  if (url) {
+    const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+    if (regex.test(url)) {
+      Linking.canOpenURL(url).then(supported => {
+        if (!supported) {
+          return 'Đường dẫn không đúng.';
+        } else {
+          return '';
+        }
+      });
+    } else {
+      return 'Đường dẫn không đúng.';
+    }
+  }
+};
+
+export const urlYoutubeValidator = url => {
+  if (url) {
+    const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+    if (regex.test(url)) {
+      Linking.canOpenURL(url).then(supported => {
+        if (!supported) {
+          return 'Đường dẫn không đúng.';
+        } else {
+          return '';
+        }
+      });
+    } else {
+      return 'Đường dẫn không đúng.';
+    }
+  }
+};
+// export function urlYoutubeValidator(urlYoutube) {
+//   if (!urlYoutube) return "Link Youtube không thể để trống.";
+//   return '';
+// }

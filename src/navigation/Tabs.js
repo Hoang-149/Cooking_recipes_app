@@ -8,7 +8,7 @@ import Svg, {Path} from 'react-native-svg';
 import {
   CommunityScreen,
   HomeScreen,
-  Notifications,
+  MyFavouriteScreen,
   Profile,
   CreateRecipe,
 } from '../screens/index';
@@ -137,12 +137,12 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={Notifications}
+        name="MyFavouriteScreen"
+        component={MyFavouriteScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
-              source={icons.bell}
+              source={icons.like}
               resizeMode="contain"
               style={{
                 width: 30,

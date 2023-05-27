@@ -12,26 +12,27 @@ import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS, icons, SIZES} from '../constants';
 import Header from '../components/Header';
 import {Globalstyles} from '../styles/GlobalStyle';
-import {CustomButton} from '../components/CustomButton';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUser} from '../redux/actions';
 import {DATABASE_URL_IMG} from '../constants/database';
+import HeaderProfile from '../components/HeaderProfile';
 
-const Profile = ({navigation}) => {
-  const dispatch = useDispatch();
-  const {user} = useSelector(state => state.userReducer);
+const Profile = ({navigation, route}) => {
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const {userItem} = route.params;
+    // console.log(userItem);
+    setUser(userItem);
+  }, []);
 
   // console.log(`${DATABASE_URL_IMG}/users/${user.image}`);
 
   return (
     <>
       <SafeAreaView style={Globalstyles.container_1}>
-        {/* Header */}
-        {/* <Header
-          title="Account"
-          icon={icons.logout}
-          onPressIcon={() => console.log('haha')}
-        /> */}
+        <HeaderProfile
+          navigation={navigation}
+          textHeader={`Profile of ${user.name}`}
+        />
 
         <View style={Globalstyles.container_2}>
           {/* User Photo */}
@@ -52,7 +53,9 @@ const Profile = ({navigation}) => {
           <Text style={styles.name}>{user?.name}</Text>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('MyProfileScreen')}>
+            onPress={() =>
+              navigation.navigate('ProfileDetailScreen', {userItem: user})
+            }>
             <View
               style={{
                 flexDirection: 'row',
@@ -71,7 +74,7 @@ const Profile = ({navigation}) => {
                   tintColor: COLORS.black,
                 }}
               />
-              <Text style={styles.contact_text}>My Profile</Text>
+              <Text style={styles.contact_text}>Profile</Text>
               <Image
                 source={icons.next}
                 style={{
@@ -84,35 +87,9 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('MyFavouriteScreen')}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: SIZES.padding,
-                paddingVertical: SIZES.padding,
-                borderBottomColor: COLORS.darkgray,
-                borderBottomWidth: 1,
-              }}>
-              <Image
-                source={icons.like}
-                style={{
-                  width: 25,
-                  height: 25,
-                }}
-              />
-              <Text style={styles.contact_text}>My Favourites</Text>
-              <Image
-                source={icons.next}
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: COLORS.black,
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('MyRecipesScreen')}>
+            onPress={() =>
+              navigation.navigate('UserRecipesScreen', {userItem: user})
+            }>
             <View
               style={{
                 flexDirection: 'row',
@@ -128,40 +105,7 @@ const Profile = ({navigation}) => {
                   height: 25,
                 }}
               />
-              <Text style={styles.contact_text}>My Recipes</Text>
-              <Image
-                source={icons.next}
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: COLORS.black,
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(setUser(null));
-              navigation.navigate('StartScreen');
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: SIZES.padding,
-                paddingVertical: SIZES.padding,
-                paddingLeft: 3,
-
-                borderBottomColor: COLORS.darkgray,
-                borderBottomWidth: 1,
-              }}>
-              <Image
-                source={icons.logout}
-                style={{
-                  width: 25,
-                  height: 25,
-                }}
-              />
-              <Text style={styles.contact_text}>Log out</Text>
+              <Text style={styles.contact_text}>Recipes</Text>
               <Image
                 source={icons.next}
                 style={{

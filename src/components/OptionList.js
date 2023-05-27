@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 import React from 'react';
 import {images, COLORS, SIZES, FONTS, icons} from '../constants';
+import {DATABASE_URL_IMG} from '../constants/database';
 
-const OptionList = ({categories, selectedCategory, onSelectedCategory}) => {
+const OptionList = ({categories, onSelectedCategory, selectedCategory}) => {
+  // console.log(selectedCategory);
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
@@ -28,11 +30,10 @@ const OptionList = ({categories, selectedCategory, onSelectedCategory}) => {
           shadowOpacity: 0.1,
           shadowRadius: 3,
           elevation: 3,
-          backgroundColor: COLORS.white,
-          // selectedCategory?.id == item.id ? COLORS.primary : COLORS.white,
+          backgroundColor:
+            selectedCategory == item.id ? COLORS.primary : COLORS.white,
         }}
-        // onPress={() => onSelectedCategory(item)}
-      >
+        onPress={() => onSelectedCategory(item.id)}>
         <View
           style={{
             width: 60,
@@ -40,11 +41,14 @@ const OptionList = ({categories, selectedCategory, onSelectedCategory}) => {
             borderRadius: SIZES.radius,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: COLORS.lightGray,
-            // selectedCategory?.id == item.id ? COLORS.white : COLORS.lightGray,
+            backgroundColor:
+              selectedCategory == item.id ? COLORS.white : COLORS.lightGray,
           }}>
           <Image
-            source={item.icon}
+            source={{
+              uri: `${DATABASE_URL_IMG}/cate/${item?.image}`,
+              // cache: 'force-cache',
+            }}
             resizeMode="contain"
             style={{
               height: 45,
@@ -54,20 +58,22 @@ const OptionList = ({categories, selectedCategory, onSelectedCategory}) => {
         </View>
         <Text
           style={{
-            color:
-              selectedCategory?.id == item.id ? COLORS.white : COLORS.black,
             textAlign: 'center',
             ...FONTS.h5,
+            color: selectedCategory == item.id ? COLORS.white : COLORS.black,
           }}>
-          {item.name}
+          {item?.name}
         </Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={{padding: SIZES.padding * 2, paddingBottom: 0}}>
-      <Text style={{...FONTS.h3}}>Chủ đề</Text>
+    <View
+      style={{
+        marginHorizontal: SIZES.padding,
+        paddingBottom: 0,
+      }}>
       <FlatList
         data={categories}
         key={item => item.id}

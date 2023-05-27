@@ -12,6 +12,7 @@ import {emailValidator} from '../helpers/emailValidator';
 import {passwordValidator} from '../helpers/passwordValidator';
 import {nameValidator} from '../helpers/nameValidator';
 import axios from 'axios';
+import FoodApi from '../constants/option';
 
 const SignUp = ({navigation}) => {
   const [name, setName] = useState({value: '', error: ''});
@@ -38,18 +39,9 @@ const SignUp = ({navigation}) => {
       password: password.value,
       confirm_password: cfpassword.value,
     };
-    // const dataUser = {
-    //   name: 'Thang122',
-    //   email: 'Thang122@gmail.com',
-    //   password: '123123123',
-    //   confirm_password: '123123123',
-    // };
-    console.log(dataUser);
+    // console.log(dataUser);
 
-    // const API_URL = 'http://127.0.0.1:8000';
-
-    const res = axios
-      .post(`http://10.0.2.2:8000/api/register`, dataUser)
+    FoodApi.postSignUpUser(dataUser)
       .then(response => {
         // handle the response data
         console.log(response.data);
@@ -64,11 +56,6 @@ const SignUp = ({navigation}) => {
         // handle the error
         console.log(error);
       });
-
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{name: 'Dashboard'}],
-    // });
   };
 
   return (

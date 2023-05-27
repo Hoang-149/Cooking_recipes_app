@@ -1,4 +1,4 @@
-import DATABASE_URL from './database';
+import {LOCAL_URL, DATABASE_URL} from './database';
 import {COLORS, FONTS, SIZES} from './theme';
 import icons from './icons';
 import images from './images';
@@ -9,6 +9,7 @@ export {
   SIZES,
   FONTS,
   DATABASE_URL,
+  LOCAL_URL,
   icons,
   images,
   optionData,
