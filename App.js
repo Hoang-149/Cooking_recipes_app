@@ -31,6 +31,7 @@ import {Profile} from './src/screens';
 import ProfileGuest from './src/screens/ProfileGuest';
 import UpdateCuisineScreen from './src/screens/UpdateCuisineScreen';
 import UpdatePostScreen from './src/screens/UpdatePostScreen';
+import NotifyScreen from './src/screens/NotifyScreen';
 
 const Stack = createStackNavigator();
 
@@ -97,6 +98,7 @@ export default function App() {
                 name="UpdatePostScreen"
                 component={UpdatePostScreen}
               />
+              <Stack.Screen name="NotifyScreen" component={NotifyScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

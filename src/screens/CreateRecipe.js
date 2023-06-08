@@ -62,6 +62,8 @@ const CreateRecipe = ({navigation}) => {
 
   const [displayAnim, setDisplayAnim] = useState(false);
 
+  const [selectedImages, setSelectedImages] = useState([]);
+
   useEffect(() => {
     FoodApi.getAllCategory().then(response => {
       const ListCategory = response.data.category;
@@ -203,6 +205,7 @@ const CreateRecipe = ({navigation}) => {
   let options = {
     // saveToPhotos: true,
     mediaType: 'photo',
+    // multiline: true,
   };
   const openGallery = async () => {
     const result = await launchImageLibrary(options);
@@ -264,6 +267,7 @@ const CreateRecipe = ({navigation}) => {
             <View style={{flex: 1}}>
               <ProgressSteps activeStep={currentStep}>
                 <ProgressStep
+                  // nextBtnText={'Tiếp theo'}
                   label="Bước 1"
                   onNext={onNextStep1}
                   errors={checkValue}>
@@ -359,6 +363,8 @@ const CreateRecipe = ({navigation}) => {
                 </ProgressStep>
 
                 <ProgressStep
+                  // previousBtnText={'Quay lại'}
+                  // nextBtnText={'Tiếp theo'}
                   label="Bước 2"
                   onNext={onNextStep2}
                   errors={checkValue}>
@@ -477,7 +483,11 @@ const CreateRecipe = ({navigation}) => {
                   </View>
                 </ProgressStep>
 
-                <ProgressStep label="Bước 3" onSubmit={onAddPressed}>
+                <ProgressStep
+                  // previousBtnText={'Quay lại'}
+                  submitBtnText={'Đăng'}
+                  label="Bước 3"
+                  onSubmit={onAddPressed}>
                   <View
                     style={{
                       alignItems: 'center',

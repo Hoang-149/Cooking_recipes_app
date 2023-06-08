@@ -96,7 +96,11 @@ const PostList = ({navigation, allComment, menu, callAllPost}) => {
               {item?.user?.name}
             </Text>
           </View>
-          <Text>
+          <Text
+            style={{
+              ...FONTS.body5,
+              color: 'black',
+            }}>
             {new Date(item?.updated_at).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',

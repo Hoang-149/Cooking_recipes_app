@@ -227,7 +227,11 @@ const Comments = ({comment, callAllComment, userCuisine}) => {
             }}>
             {comment.user.name}
           </Text>
-          <Text>
+          <Text
+            style={{
+              ...FONTS.body5,
+              color: 'black',
+            }}>
             {new Date(comment.updated_at).toLocaleString('en-US', {
               year: 'numeric',
               month: '2-digit',
@@ -379,7 +383,11 @@ const Comments = ({comment, callAllComment, userCuisine}) => {
                   }}>
                   {reply?.user?.name}
                 </Text>
-                <Text>
+                <Text
+                  style={{
+                    ...FONTS.body5,
+                    color: 'black',
+                  }}>
                   {new Date(reply?.updated_at).toLocaleString('en-US', {
                     year: 'numeric',
                     month: '2-digit',

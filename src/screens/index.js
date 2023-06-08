@@ -2,6 +2,6 @@ import CommunityScreen from './CommunityScreen';
 import HomeScreen from './HomeScreen';
 import Profile from './ProfileScreen';
 import CreateRecipe from './CreateRecipe';
-import MyFavouriteScreen from './MyFavouriteScreen';
+import NotifyScreen from './NotifyScreen';
 
-export {CommunityScreen, HomeScreen, MyFavouriteScreen, Profile, CreateRecipe};
+export {CommunityScreen, HomeScreen, NotifyScreen, Profile, CreateRecipe};

@@ -311,6 +311,24 @@ const FoodApi = {
       console.log(error);
     }
   },
+  getNotifyUser: async id => {
+    try {
+      const url = await axios.get(`${LOCAL_URL}/api/cuisine-status/${id}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  putStatusNotify: id => {
+    try {
+      const url = axios.put(
+        `${LOCAL_URL}/api/users/${id}/notify/update-status`,
+      );
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export default FoodApi;

@@ -133,7 +133,7 @@ const PostList2 = ({navigation, onPresscallAllPost, menu}) => {
               style={{
                 color: 'white',
               }}>
-              {item.status == 1 ? 'Đã duyệt' : 'Chưa duyệt'}{' '}
+              {item.status == 1 ? 'Đã duyệt' : 'Chưa duyệt'}
             </Text>
           </View>
           <View
@@ -171,8 +171,12 @@ const PostList2 = ({navigation, onPresscallAllPost, menu}) => {
                 {item?.user?.name}
               </Text>
             </View>
-            <Text>
-              {new Date(item?.created_at).toLocaleString('en-US', {
+            <Text
+              style={{
+                ...FONTS.body5,
+                color: 'black',
+              }}>
+              {new Date(item?.updated_at).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
