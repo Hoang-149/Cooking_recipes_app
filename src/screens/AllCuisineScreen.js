@@ -196,7 +196,7 @@ const AllCuisineScreen = ({navigation, route}) => {
                 textAlign: 'center',
                 paddingRight: valueSearch ? SIZES.padding : 25 + SIZES.padding,
               }}>
-              All Cuisine
+              Tất Cả
             </Text>
             {valueSearch ? (
               <TouchableOpacity onPress={() => onDisplayPress()}>
@@ -230,7 +230,7 @@ const AllCuisineScreen = ({navigation, route}) => {
             paddingLeft: SIZES.padding,
             fontWeight: '700',
           }}>
-          All Cuisine
+          Tất Cả
         </Text>
       </TouchableOpacity>
       {loading ? (

@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Keyboard,
-  Platform,
-} from 'react-native';
-import React, {useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import React from 'react';
 import {
   createBottomTabNavigator,
   BottomTabBar,
@@ -20,7 +13,8 @@ import {
   CreateRecipe,
 } from '../screens/index';
 import {COLORS, icons} from '../constants';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import HomeGuest from '../screens/HomeGuest';
+import ProfileGuest from '../screens/ProfileGuest';
 
 const Tab = createBottomTabNavigator();
 
@@ -75,42 +69,7 @@ const CustomTabBar = props => {
   return <BottomTabBar {...props.props} />;
 };
 
-const Tabs = () => {
-  const navigation = useNavigation();
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      _keyboardDidShow,
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      _keyboardDidHide,
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-
-  const _keyboardDidShow = () => {
-    if (Platform.OS === 'android' && !isFocused) {
-      navigation.setOptions({
-        tabBarVisible: false, // Ẩn thanh điều hướng tab
-      });
-    }
-  };
-
-  const _keyboardDidHide = () => {
-    if (Platform.OS === 'android' && !isFocused) {
-      navigation.setOptions({
-        tabBarVisible: true, // Hiển thị lại thanh điều hướng tab
-      });
-    }
-  };
-
+const TabsGuest = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -123,8 +82,8 @@ const Tabs = () => {
       }}
       tabBar={props => <CustomTabBar props={props} />}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="HomeGuest"
+        component={HomeGuest}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
@@ -199,8 +158,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="ProfileGuest"
+        component={ProfileGuest}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
@@ -221,4 +180,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default TabsGuest;

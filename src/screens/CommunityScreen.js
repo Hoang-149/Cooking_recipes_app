@@ -19,19 +19,41 @@ const CommunityScreen = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [allComment, setAllComment] = useState([]);
+
   useEffect(() => {
-    callAllPost();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      // do something
+      callAllPost();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const callAllPost = () => {
     FoodApi.getAllPost().then(res => {
-      const newCuisineList = res.data.post;
+      const newPostList = res.data.post;
       // console.log(res.data.post);
 
-      setPostList(newCuisineList);
+      setPostList(newPostList);
       setLoading(false);
 
       setRefreshing(false);
+
+      // Lấy danh sách comment cho mỗi bài post
+      newPostList.forEach(post => {
+        getCommentPost(post.id); // Thay postId bằng ID của bài post
+      });
+    });
+  };
+
+  const getCommentPost = postId => {
+    FoodApi.getCommentPost(postId).then(response => {
+      const newCommentList = response.data.comments;
+
+      // console.log(response.data.comments);
+
+      setAllComment(newCommentList);
     });
   };
 
@@ -68,7 +90,14 @@ const CommunityScreen = ({navigation}) => {
       </Tab>
 
       <TabView value={index} onChange={setIndex} animationType="spring">
-        <TabView.Item style={{marginHorizontal: SIZES.padding}}>
+        <TabView.Item
+          style={{
+            marginHorizontal: SIZES.padding,
+            // alignContent: 'center',
+            // backgroundColor: 'red',
+            alignItems: 'center',
+            flex: 1,
+          }}>
           {loading ? (
             <ActivityIndicator
               size="large"
@@ -76,11 +105,17 @@ const CommunityScreen = ({navigation}) => {
               style={{flex: 1}}
             />
           ) : (
-            <PostList navigation={navigation} menu={postList} />
+            <PostList
+              navigation={navigation}
+              allComment={allComment}
+              menu={postList}
+              callAllPost={callAllPost}
+            />
           )}
         </TabView.Item>
+
         <TabView.Item style={{width: '100%'}}>
-          <Text h1>Bài Post</Text>
+          {/* <Text h1>Bài Post</Text> */}
         </TabView.Item>
       </TabView>
       {/* </ScrollView> */}

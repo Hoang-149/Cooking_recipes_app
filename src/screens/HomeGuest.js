@@ -18,11 +18,10 @@ import {useSelector} from 'react-redux';
 import FoodApi from '../constants/option';
 import {SliderBox} from 'react-native-image-slider-box';
 import SearchBar from 'react-native-dynamic-search-bar';
-import {DATABASE_URL_IMG, LOCAL_URL} from '../constants/database';
+import {DATABASE_URL_IMG} from '../constants/database';
 import {Image} from 'react-native-svg';
-import axios from 'axios';
 
-const HomeScreen = ({navigation}) => {
+const HomeGuest = ({navigation}) => {
   const {user} = useSelector(state => state.userReducer);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,6 @@ const HomeScreen = ({navigation}) => {
     callCuisine();
     callBanner();
     // getFavourite();
-    // updateProductApproval(3);
   }, []);
 
   const callCuisine = () => {
@@ -122,149 +120,134 @@ const HomeScreen = ({navigation}) => {
     setSelectedCategory(category);
   };
 
-  const updateProductApproval = async productId => {
-    try {
-      const response = await axios.post(
-        `${LOCAL_URL}/web/cuisine/update/${productId}`,
-      );
-      // Handle success
-      console.log(response.data.message);
-    } catch (error) {
-      // Handle error
-      console.error(error);
-    }
-  };
-
   return (
-    // <SafeAreaView
-    //   style={{
-    //     flex: 1,
-    //     backgroundColor: COLORS.lightGray4,
-    //     paddingTop: 2,
-    //   }}>
-    <ScrollView
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: COLORS.lightGray4,
         paddingTop: 2,
-      }}
-      nestedScrollEnabled={true}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      <HomeHeader avatar={user?.image} />
-
-      <View
+      }}>
+      <ScrollView
         style={{
-          marginTop: SIZES.padding * 2,
-        }}>
-        <Text
-          style={{
-            ...FONTS.h3,
-            paddingLeft: SIZES.padding,
-            fontWeight: '700',
-          }}>
-          Chủ đề
-        </Text>
+          flex: 1,
+        }}
+        nestedScrollEnabled={true}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <HomeHeader avatar={user?.image} />
 
-        <OptionList
-          navigation={navigation}
-          categories={categoryList}
-          onSelectedCategory={onSelectedCategory}
-          // selectedCategory={selectedCategory}
-        />
-      </View>
-
-      {bannerList ? (
         <View
           style={{
-            marginHorizontal: SIZES.padding,
-            // backgroundColor: 'red',
-            marginBottom: SIZES.padding * 2,
+            marginTop: SIZES.padding * 2,
           }}>
-          <View
-            style={{
-              // marginLeft: SIZES.padding * 2,
-              // marginRight: SIZES.padding * 2,
-              // marginBottom: SIZES.padding,
-              borderRadius: SIZES.radius,
-              width: 200,
-              height: 200,
-              alignItems: 'center',
-              alignContent: 'center',
-              alignSelf: 'center',
-            }}>
-            <SliderBox
-              ImageComponentStyle={{
-                borderRadius: 15,
-              }}
-              imageLoadingColor={COLORS.primary}
-              parentWidth={SIZES.width * 0.9}
-              images={bannerList.map((item, i) => {
-                return {uri: `${DATABASE_URL_IMG}/banner/${item?.image}`};
-              })}
-              autoplay={true}
-              autoplayInterval={4000}
-              circleLoop={true}
-            />
-          </View>
-        </View>
-      ) : (
-        ''
-      )}
-
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: SIZES.padding,
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            ...FONTS.h3,
-            fontWeight: '700',
-
-            marginBottom: 0,
-          }}>
-          Món ăn nổi bật
-        </Text>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('AllCuisineScreen', {
-              idCate: null,
-              value: null,
-            })
-          }>
           <Text
             style={{
-              textDecorationLine: 'underline',
-              ...FONTS.h5,
-              color: COLORS.darkgray,
+              ...FONTS.h3,
+              paddingLeft: SIZES.padding,
+              fontWeight: '700',
             }}>
-            Xem thêm
+            Chủ đề
           </Text>
-        </TouchableOpacity>
-      </View>
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={COLORS.primary}
-          style={{flex: 1}}
-        />
-      ) : (
-        <MenuList
-          navigation={navigation}
-          menu={cuisineList}
-          onPressFavourite={addToFavourite}
-          user={user?.id}
-          // categories={categoryData}
-          // categorySelected={categorySelected}
-        />
-      )}
-    </ScrollView>
-    // </SafeAreaView>
+
+          <OptionList
+            navigation={navigation}
+            categories={categoryList}
+            onSelectedCategory={onSelectedCategory}
+            // selectedCategory={selectedCategory}
+          />
+        </View>
+
+        {bannerList ? (
+          <View
+            style={{
+              marginHorizontal: SIZES.padding,
+              // backgroundColor: 'red',
+              marginBottom: SIZES.padding * 2,
+            }}>
+            <View
+              style={{
+                // marginLeft: SIZES.padding * 2,
+                // marginRight: SIZES.padding * 2,
+                // marginBottom: SIZES.padding,
+                borderRadius: SIZES.radius,
+                width: 200,
+                height: 200,
+                alignItems: 'center',
+                alignContent: 'center',
+                alignSelf: 'center',
+              }}>
+              <SliderBox
+                ImageComponentStyle={{
+                  borderRadius: 15,
+                }}
+                imageLoadingColor={COLORS.primary}
+                parentWidth={SIZES.width * 0.9}
+                images={bannerList.map((item, i) => {
+                  return {uri: `${DATABASE_URL_IMG}/banner/${item?.image}`};
+                })}
+                autoplay={true}
+                autoplayInterval={4000}
+                circleLoop={true}
+              />
+            </View>
+          </View>
+        ) : (
+          ''
+        )}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: SIZES.padding,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              ...FONTS.h3,
+              fontWeight: '700',
+
+              marginBottom: 0,
+            }}>
+            Món ăn nổi bật
+          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('AllCuisineScreen', {
+                idCate: null,
+                value: null,
+              })
+            }>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                ...FONTS.h5,
+                color: COLORS.darkgray,
+              }}>
+              Xem thêm
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={COLORS.primary}
+            style={{flex: 1}}
+          />
+        ) : (
+          <MenuList
+            navigation={navigation}
+            menu={cuisineList}
+            onPressFavourite={addToFavourite}
+            user={user?.id}
+            // categories={categoryData}
+            // categorySelected={categorySelected}
+          />
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default HomeGuest;

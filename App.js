@@ -24,6 +24,13 @@ import ProfileUserScreen from './src/screens/ProfileUserScreen';
 import ProfileDetailScreen from './src/screens/ProfileDetailScreen';
 import UserRecipesScreen from './src/screens/UserRecipesScreen';
 import CreatePostScreen from './src/screens/CreatePostScreen';
+import MyShareScreen from './src/screens/MyShareScreen';
+import UserPostScreen from './src/screens/UserPostScreen';
+import TabsGuest from './src/navigation/TabsGuest';
+import {Profile} from './src/screens';
+import ProfileGuest from './src/screens/ProfileGuest';
+import UpdateCuisineScreen from './src/screens/UpdateCuisineScreen';
+import UpdatePostScreen from './src/screens/UpdatePostScreen';
 
 const Stack = createStackNavigator();
 
@@ -76,6 +83,19 @@ export default function App() {
               <Stack.Screen
                 name="ResetPasswordScreen"
                 component={ResetPasswordScreen}
+              />
+              <Stack.Screen name="MyShareScreen" component={MyShareScreen} />
+              <Stack.Screen name="UserPostScreen" component={UserPostScreen} />
+              <Stack.Screen name="TabsGuest" component={TabsGuest} />
+              <Stack.Screen name="Profile" component={Profile} />
+              <Stack.Screen name="ProfileGuest" component={ProfileGuest} />
+              <Stack.Screen
+                name="UpdateCuisineScreen"
+                component={UpdateCuisineScreen}
+              />
+              <Stack.Screen
+                name="UpdatePostScreen"
+                component={UpdatePostScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>

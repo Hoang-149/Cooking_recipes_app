@@ -23,16 +23,20 @@ const MyFavouriteScreen = ({navigation, route}) => {
 
   const [cuisineList, setCuisineList] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    FoodApi.showFavourite(user?.id).then(res => {
-      const newCuisineList = res.data.cuisine_favourite;
-      // console.log(res.data.cuisine_favourite);
+    const unsubscribe = navigation.addListener('focus', () => {
+      // do something
+      FoodApi.showFavourite(user?.id).then(res => {
+        const newCuisineList = res.data.cuisine_favourite;
+        // console.log(res.data.cuisine_favourite);
 
-      setCuisineList(newCuisineList);
-      setLoading(false);
+        setCuisineList(newCuisineList);
+        setLoading(false);
+      });
     });
-  }, []);
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView
@@ -40,23 +44,89 @@ const MyFavouriteScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'My Favourites'} />
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={COLORS.primary}
-          style={{flex: 1}}
-        />
-      ) : (
-        <MenuList
-          navigation={navigation}
-          menu={cuisineList}
-          //   onPressFavourite={addToFavourite}
-          like={true}
-          // categories={categoryData}
-          // categorySelected={categorySelected}
-        />
-      )}
+      <HeaderProfile navigation={navigation} textHeader={'Yêu Thích Của Tôi'} />
+      {/* <View
+        style={{
+          flex: 1,
+        }}>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={COLORS.primary}
+            style={{
+              flex: 1,
+            }}
+          />
+        ) : (
+          <MenuList
+            navigation={navigation}
+            menu={cuisineList}
+            //   onPressFavourite={addToFavourite}
+            like={true}
+            // categories={categoryData}
+            // categorySelected={categorySelected}
+          />
+        )}
+      </View> */}
+      {/* <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+        }}>
+        <Text
+          style={{
+            ...FONTS.h3,
+            textAlign: 'center',
+          }}>
+          Danh sách yêu thích của bạn rỗng
+        </Text>
+      </View> */}
+      <View
+        style={{
+          flex: 1,
+        }}>
+        {cuisineList ? (
+          <View
+            style={{
+              flex: 1,
+            }}>
+            {loading ? (
+              <ActivityIndicator
+                size="large"
+                color={COLORS.primary}
+                style={{
+                  flex: 1,
+                }}
+              />
+            ) : (
+              <MenuList
+                navigation={navigation}
+                menu={cuisineList}
+                //   onPressFavourite={addToFavourite}
+                like={true}
+                // categories={categoryData}
+                // categorySelected={categorySelected}
+              />
+            )}
+          </View>
+        ) : (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 1,
+            }}>
+            <Text
+              style={{
+                ...FONTS.h3,
+                textAlign: 'center',
+              }}>
+              Danh sách yêu thích của bạn rỗng
+            </Text>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };

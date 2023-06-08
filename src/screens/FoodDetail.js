@@ -50,15 +50,15 @@ const FoodDetail = ({navigation, route}) => {
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    FoodApi.getUserCuisine(item?.user_id).then(res => {
-      const newUserCuisine = res.data.usercuisine;
+  // useEffect(() => {
+  //   FoodApi.getUserCuisine(item?.user_id).then(res => {
+  //     const newUserCuisine = res.data.usercuisine;
 
-      // console.log(res.data.usercuisine);
+  //     // console.log(res.data.usercuisine);
 
-      setUserCuisine(newUserCuisine);
-    });
-  }, [item?.user_id]);
+  //     setUserCuisine(newUserCuisine);
+  //   });
+  // }, [item?.user_id]);
 
   useEffect(() => {
     callAllComment();
@@ -142,6 +142,16 @@ const FoodDetail = ({navigation, route}) => {
     });
   };
 
+  const onPressUser = () => {
+    if (item?.user?.id == user?.id) {
+      navigation.navigate('Profile');
+    } else {
+      navigation.navigate('ProfileUserScreen', {
+        userItem: item?.user,
+      });
+    }
+  };
+
   const onCommentPressed = async () => {
     const commentError = commentValidator(comment.value);
     if (commentError) {
@@ -160,7 +170,7 @@ const FoodDetail = ({navigation, route}) => {
     FoodApi.postComment(dataComment).then(response => {
       if (response.data.status === 200) {
         console.log(response.data.message);
-        ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+        ToastAndroid.show('Bình luận thành công', ToastAndroid.SHORT);
         setComment('');
         callAllComment();
       } else {
@@ -336,15 +346,10 @@ const FoodDetail = ({navigation, route}) => {
               paddingHorizontal: SIZES.padding * 2,
               backgroundColor: COLORS.primary,
             }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('ProfileUserScreen', {
-                  userItem: userCuisine[0],
-                })
-              }>
+            <TouchableOpacity onPress={() => onPressUser()}>
               <Image
                 source={{
-                  uri: `${DATABASE_URL_IMG}/users/${userCuisine[0]?.image}`,
+                  uri: `${DATABASE_URL_IMG}/users/${item?.user?.image}`,
                   // cache: 'force-cache',
                 }}
                 style={{
@@ -360,7 +365,7 @@ const FoodDetail = ({navigation, route}) => {
                 marginLeft: SIZES.padding,
                 color: '#d9d9d9',
               }}>
-              {userCuisine[0]?.name}
+              {item?.user?.name}
             </Text>
           </View>
 
@@ -385,9 +390,9 @@ const FoodDetail = ({navigation, route}) => {
                 style={{
                   ...FONTS.h5,
                 }}>
-                Duration
+                Thời gian nấu
               </Text>
-              <Text> {item?.duration} mins</Text>
+              <Text> {item?.duration} phút</Text>
             </View>
             <View
               style={{
@@ -401,7 +406,7 @@ const FoodDetail = ({navigation, route}) => {
                 style={{
                   ...FONTS.h5,
                 }}>
-                Difficulty
+                Mức độ
               </Text>
               <Text> {item?.difficulty}</Text>
             </View>
@@ -422,13 +427,13 @@ const FoodDetail = ({navigation, route}) => {
               }}>
               Thành phần
             </Text>
-            <Text
+            {/* <Text
               style={{
                 ...FONTS.body5,
                 marginLeft: SIZES.padding,
               }}>
               Khẩu phần: 1 người
-            </Text>
+            </Text> */}
           </View>
           <View
             style={{
@@ -476,6 +481,7 @@ const FoodDetail = ({navigation, route}) => {
               style={{
                 ...FONTS.h5,
                 fontWeight: 'bold',
+                paddingBottom: SIZES.padding * 0.5,
               }}>
               Hướng dẫn thực hiện
             </Text>
@@ -516,7 +522,8 @@ const FoodDetail = ({navigation, route}) => {
             }}>
             <Text
               style={{
-                ...FONTS.h5,
+                ...FONTS.h4,
+                fontSize: 16,
                 fontWeight: 'bold',
                 paddingBottom: SIZES.padding,
               }}>
@@ -528,7 +535,7 @@ const FoodDetail = ({navigation, route}) => {
                 key={i}
                 comment={comment}
                 callAllComment={callAllComment}
-                userCuisine={userCuisine}
+                userCuisine={item?.user?.id}
               />
             ))}
 
@@ -551,12 +558,30 @@ const FoodDetail = ({navigation, route}) => {
                   padding: 10,
                   ...FONTS.body3,
                   height: 100,
-                  borderColor: COLORS.darkgray,
+                  borderTopColor: COLORS.darkgray,
                   borderWidth: 1,
                   textAlignVertical: 'top',
                 }}
               />
-              <View
+              <TouchableOpacity
+                style={{
+                  position: 'absolute',
+                  bottom: 10,
+                  right: 8,
+                  alignItems: 'center',
+                  // alignSelf: 'center',
+                }}
+                onPress={onCommentPressed}>
+                <Image
+                  source={icons.send}
+                  style={{
+                    width: 24,
+                    height: 24,
+                    tintColor: comment.value ? 'blue' : COLORS.secondary,
+                  }}
+                />
+              </TouchableOpacity>
+              {/* <View
                 style={{
                   flex: 10,
                   marginTop: SIZES.padding,
@@ -579,17 +604,17 @@ const FoodDetail = ({navigation, route}) => {
                         ...FONTS.body3,
                         color: 'white',
                       }}>
-                      Add
+                      Bình luận
                     </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
           </View>
 
           <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
             <CustomButton
-              text={'Share'}
+              text={'Chia sẻ'}
               onPressButton={() =>
                 navigation.navigate('CreatePostScreen', {cuisineCurrent: item})
               }

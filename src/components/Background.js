@@ -6,7 +6,9 @@ export default function Background({children}) {
   return (
     <ImageBackground
       source={require('../assets/background_dot.png')}
+      // source={require('../assets/images/nen1.jpg')}
       resizeMode="repeat"
+      // resizeMode="stretch"
       style={styles.background}>
       <KeyboardAvoidingView style={styles.container} behavior="height">
         {children}

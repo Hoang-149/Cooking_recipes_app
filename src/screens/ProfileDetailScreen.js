@@ -35,7 +35,7 @@ const MyProfileScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'Profile'} />
+      <HeaderProfile navigation={navigation} textHeader={'Thông Tin'} />
 
       <View
         style={{
@@ -77,7 +77,7 @@ const MyProfileScreen = ({navigation, route}) => {
               ...FONTS.h4,
               marginBottom: SIZES.padding,
             }}>
-            Name
+            Tên
           </Text>
           <TextInput
             value={user.name}
@@ -132,7 +132,7 @@ const MyProfileScreen = ({navigation, route}) => {
               ...FONTS.h4,
               marginBottom: SIZES.padding,
             }}>
-            Phone
+            Số điện thoại
           </Text>
           <TextInput
             value={user.phone === 'null' ? '' : user.phone}

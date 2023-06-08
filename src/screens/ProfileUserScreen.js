@@ -31,7 +31,7 @@ const Profile = ({navigation, route}) => {
       <SafeAreaView style={Globalstyles.container_1}>
         <HeaderProfile
           navigation={navigation}
-          textHeader={`Profile of ${user.name}`}
+          textHeader={`Thông Tin của ${user.name}`}
         />
 
         <View style={Globalstyles.container_2}>
@@ -74,7 +74,7 @@ const Profile = ({navigation, route}) => {
                   tintColor: COLORS.black,
                 }}
               />
-              <Text style={styles.contact_text}>Profile</Text>
+              <Text style={styles.contact_text}>Thông Tin</Text>
               <Image
                 source={icons.next}
                 style={{
@@ -105,7 +105,38 @@ const Profile = ({navigation, route}) => {
                   height: 25,
                 }}
               />
-              <Text style={styles.contact_text}>Recipes</Text>
+              <Text style={styles.contact_text}>Công Thức</Text>
+              <Image
+                source={icons.next}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: COLORS.black,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('UserPostScreen', {userItem: user})
+            }>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: SIZES.padding,
+                paddingVertical: SIZES.padding,
+                borderBottomColor: COLORS.darkgray,
+                borderBottomWidth: 1,
+              }}>
+              <Image
+                source={icons.comment}
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+              />
+              <Text style={styles.contact_text}>Bài Đăng</Text>
               <Image
                 source={icons.next}
                 style={{

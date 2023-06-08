@@ -26,7 +26,13 @@ const MyProfileScreen = ({navigation, route}) => {
   const [image, setImage] = useState('');
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
-  const [phone, setPhone] = useState(user?.phone);
+  const [phone, setPhone] = useState('');
+
+  useEffect(() => {
+    if (user?.phone != 'null') {
+      setPhone(user?.phone);
+    }
+  }, [user?.phone]);
 
   const onUpdatePress = () => {
     const dataUser = new FormData();
@@ -93,7 +99,7 @@ const MyProfileScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'My Profile'} />
+      <HeaderProfile navigation={navigation} textHeader={'Thông Tin Của Tôi'} />
 
       <View
         style={{
@@ -105,25 +111,28 @@ const MyProfileScreen = ({navigation, route}) => {
             paddingVertical: SIZES.padding * 2,
             alignContent: 'center',
           }}>
-          {image ? (
-            <Image
-              source={{uri: image.uri}}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-              }}
-            />
-          ) : (
-            <Image
-              source={{
-                uri: `${DATABASE_URL_IMG}/users/${user.image}`,
-                // cache: 'force-cache',
-              }}
-              // resizeMode="contain"
-              style={{width: 100, height: 100, borderRadius: 50}}
-            />
-          )}
+          <View>
+            {user?.image ? (
+              <Image
+                source={{uri: `${DATABASE_URL_IMG}/users/${user?.image}`}}
+                style={{width: 100, height: 100, borderRadius: 50}}
+              />
+            ) : image ? (
+              <Image
+                source={{uri: image.uri}}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                }}
+              />
+            ) : (
+              <Image
+                source={icons.user}
+                style={{width: 100, height: 100, borderRadius: 50}}
+              />
+            )}
+          </View>
 
           <View
             style={{
@@ -145,7 +154,7 @@ const MyProfileScreen = ({navigation, route}) => {
                     ...SIZES.body4,
                     color: 'black',
                   }}>
-                  Upload new image
+                  Tải hình ảnh lên
                 </Text>
               </View>
             </TouchableOpacity>
@@ -165,7 +174,7 @@ const MyProfileScreen = ({navigation, route}) => {
                     ...SIZES.body4,
                     color: 'black',
                   }}>
-                  Delete image
+                  Xóa hình ảnh
                 </Text>
               </View>
             </TouchableOpacity>
@@ -180,7 +189,7 @@ const MyProfileScreen = ({navigation, route}) => {
             style={{
               ...FONTS.h4,
             }}>
-            Name
+            Tên
           </Text>
           <TextInput
             value={name}
@@ -217,6 +226,7 @@ const MyProfileScreen = ({navigation, route}) => {
             }}
           />
         </View>
+
         <View
           style={
             {
@@ -227,7 +237,7 @@ const MyProfileScreen = ({navigation, route}) => {
             style={{
               ...FONTS.h4,
             }}>
-            Phone
+            Số điện thoại
           </Text>
           <TextInput
             value={phone}
@@ -241,8 +251,9 @@ const MyProfileScreen = ({navigation, route}) => {
             }}
           />
         </View>
+
         <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
-          <CustomButton text={'Save Changes'} onPressButton={onUpdatePress} />
+          <CustomButton text={'Lưu Thay Đổi'} onPressButton={onUpdatePress} />
         </View>
       </View>
     </SafeAreaView>

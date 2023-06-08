@@ -13,6 +13,8 @@ import {passwordValidator} from '../helpers/passwordValidator';
 import {nameValidator} from '../helpers/nameValidator';
 import axios from 'axios';
 import FoodApi from '../constants/option';
+import LottieView from 'lottie-react-native';
+import {COLORS} from '../constants';
 
 const SignUp = ({navigation}) => {
   const [name, setName] = useState({value: '', error: ''});
@@ -61,10 +63,28 @@ const SignUp = ({navigation}) => {
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Create Account</Header>
+      <View
+        style={{
+          width: '100%',
+          // height: 200,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <LottieView
+          autoPlay
+          speed={0.5}
+          // duration={5000}
+          loop={true}
+          style={{
+            height: 250,
+            alignSelf: 'center',
+          }}
+          source={require('../assets/anim/88782-women-cooking-in-kitchen.json')}
+        />
+        <Header>Tạo Tài Khoản</Header>
+      </View>
       <TextInput
-        label="Name"
+        label="Tên"
         returnKeyType="next"
         value={name.value}
         onChangeText={text => setName({value: text, error: ''})}
@@ -84,7 +104,7 @@ const SignUp = ({navigation}) => {
         keyboardType="email-address"
       />
       <TextInput
-        label="Password"
+        label="Mật Khẩu"
         returnKeyType="done"
         value={password.value}
         onChangeText={text => setPassword({value: text, error: ''})}
@@ -93,7 +113,7 @@ const SignUp = ({navigation}) => {
         secureTextEntry
       />
       <TextInput
-        label="Confirm Password"
+        label="Xác Nhận Mật Khẩu"
         returnKeyType="done"
         value={cfpassword.value}
         onChangeText={text => setcfPassword({value: text, error: ''})}
@@ -105,12 +125,12 @@ const SignUp = ({navigation}) => {
         mode="contained"
         onPress={onSignUpPressed}
         style={{marginTop: 24}}>
-        Sign Up
+        Đăng Ký
       </Button>
       <View style={styles.row}>
-        <Text>Already have an account? </Text>
+        <Text>Bạn đã có tài khoản? </Text>
         <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
-          <Text style={styles.link}>Login</Text>
+          <Text style={styles.link}>Đăng Nhập</Text>
         </TouchableOpacity>
       </View>
     </Background>
@@ -126,6 +146,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: COLORS.primary,
   },
 });

@@ -4,7 +4,7 @@ import {Button as PaperButton} from 'react-native-paper';
 import {theme} from '../core/theme';
 import {COLORS} from '../constants';
 
-export default function Button({mode, style, ...props}) {
+export default function Button1({mode, style, ...props}) {
   return (
     <PaperButton
       style={[
@@ -30,5 +30,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     lineHeight: 26,
+    color: COLORS.primary,
   },
 });

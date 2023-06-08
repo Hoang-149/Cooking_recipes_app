@@ -31,7 +31,12 @@ const HomeHeader = ({searchMenu, avatar}) => {
           width: 50,
           alignItems: 'center',
           justifyContent: 'center',
-        }}>
+        }}
+        onPress={() =>
+          avatar
+            ? navigation.navigate('Profile')
+            : navigation.navigate('ProfileGuest')
+        }>
         {avatar ? (
           <Image
             source={{uri: `${DATABASE_URL_IMG}/users/${avatar}`}}

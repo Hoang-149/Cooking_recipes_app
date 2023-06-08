@@ -26,31 +26,32 @@ import HeaderProfile from '../components/HeaderProfile';
 import TextInput from '../components/TextInput';
 import LottieView from 'lottie-react-native';
 
-const CreatePostScreen = ({navigation, route}) => {
+const UpdatePostScreen = ({navigation, route}) => {
   const {user} = useSelector(state => state.userReducer);
 
   const [title, setTitle] = useState({value: '', error: ''});
-  const [cuisine, setCuisine] = useState([]);
+  const [post, setPost] = useState([]);
 
   const [displayAnim, setDisplayAnim] = useState(false);
 
   useEffect(() => {
-    const {cuisineCurrent} = route.params;
-    // console.log(cuisineCurrent);
-    setCuisine(cuisineCurrent);
+    const {currentItem} = route.params;
+    // console.log(currentItem);
+    setPost(currentItem);
+    setTitle({value: currentItem.title, error: ''});
   }, []);
 
   const onPostPress = () => {
     const dataPost = {
-      name: `${user?.id}${cuisine?.id}`,
+      name: `${user?.id}${post?.cuisine.id}`,
       title: title.value,
       id_user: user?.id,
-      id_cuisine: cuisine?.id,
+      id_cuisine: post?.cuisine?.id,
     };
 
     // console.log(dataPost);
 
-    FoodApi.createPost(dataPost).then(response => {
+    FoodApi.postUpdatePost(post.id, dataPost).then(response => {
       if (response.data.status === 200) {
         console.log(response.data.message);
 
@@ -60,7 +61,7 @@ const CreatePostScreen = ({navigation, route}) => {
         ToastAndroid.show('Chia Sẻ Thành Công', ToastAndroid.SHORT);
 
         const timeout = setTimeout(() => {
-          navigation.navigate('FoodDetail');
+          navigation.navigate('MyShareScreen');
         }, 5000);
       } else {
         console.log(response.data.message);
@@ -69,7 +70,7 @@ const CreatePostScreen = ({navigation, route}) => {
     });
   };
 
-  // console.log(`${DATABASE_URL_IMG}/cuisine/${cuisine?.image}`);
+  console.log(`${DATABASE_URL_IMG}/cuisine/${post?.image}`);
 
   return (
     <SafeAreaView
@@ -77,7 +78,7 @@ const CreatePostScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'Tạo Bài Chia Sẻ'} />
+      <HeaderProfile navigation={navigation} textHeader={'Chia Sẻ'} />
 
       {displayAnim ? (
         <View
@@ -139,7 +140,7 @@ const CreatePostScreen = ({navigation, route}) => {
             // borderColor={COLORS.darkgray}
             // borderWidth={1}
             style={{
-              padding: 5,
+              //   padding: 3,
               ...FONTS.body3,
               height: 100,
               textAlignVertical: 'top',
@@ -161,7 +162,13 @@ const CreatePostScreen = ({navigation, route}) => {
             }}>
             Công Thức
           </Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('FoodDetail', {
+                currentItem: post?.cuisine,
+                idCuisine: post?.cuisine?.id,
+              })
+            }>
             <View
               style={{
                 backgroundColor: 'white',
@@ -169,7 +176,9 @@ const CreatePostScreen = ({navigation, route}) => {
               }}>
               <Image
                 // source={require('../assets/images/nuong.png')}
-                source={{uri: `${DATABASE_URL_IMG}/cuisine/${cuisine?.image}`}}
+                source={{
+                  uri: `${DATABASE_URL_IMG}/cuisine/${post?.cuisine?.image}`,
+                }}
                 style={{width: '100%', height: 200, resizeMode: 'contain'}}
               />
               <View
@@ -192,18 +201,18 @@ const CreatePostScreen = ({navigation, route}) => {
                     ...FONTS.body2,
                     fontWeight: '700',
                   }}>
-                  {cuisine?.name}
+                  {post?.cuisine?.name}
                 </Text>
               </View>
             </View>
           </TouchableOpacity>
         </View>
         <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
-          <CustomButton text={'Đăng'} onPressButton={() => onPostPress()} />
+          <CustomButton text={'Cập Nhật'} onPressButton={() => onPostPress()} />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default CreatePostScreen;
+export default UpdatePostScreen;

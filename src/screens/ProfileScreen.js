@@ -16,6 +16,8 @@ import {CustomButton} from '../components/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUser} from '../redux/actions';
 import {DATABASE_URL_IMG} from '../constants/database';
+import FlashMessage from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const Profile = ({navigation}) => {
           icon={icons.logout}
           onPressIcon={() => console.log('haha')}
         /> */}
-
+        {/* <FlashMessage position="top" /> Add this line */}
         <View style={Globalstyles.container_2}>
           {/* User Photo */}
           <View style={styles.image_container}>
@@ -59,7 +61,7 @@ const Profile = ({navigation}) => {
                 marginTop: SIZES.padding * 2,
                 paddingVertical: SIZES.padding,
                 paddingLeft: 3,
-
+                marginTop: SIZES.padding * 8,
                 borderBottomColor: COLORS.darkgray,
                 borderBottomWidth: 1,
               }}>
@@ -71,7 +73,7 @@ const Profile = ({navigation}) => {
                   tintColor: COLORS.black,
                 }}
               />
-              <Text style={styles.contact_text}>My Profile</Text>
+              <Text style={styles.contact_text}>Thông Tin</Text>
               <Image
                 source={icons.next}
                 style={{
@@ -100,7 +102,7 @@ const Profile = ({navigation}) => {
                   height: 25,
                 }}
               />
-              <Text style={styles.contact_text}>My Favourites</Text>
+              <Text style={styles.contact_text}>Yêu Thích</Text>
               <Image
                 source={icons.next}
                 style={{
@@ -111,6 +113,7 @@ const Profile = ({navigation}) => {
               />
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => navigation.navigate('MyRecipesScreen')}>
             <View
@@ -128,7 +131,7 @@ const Profile = ({navigation}) => {
                   height: 25,
                 }}
               />
-              <Text style={styles.contact_text}>My Recipes</Text>
+              <Text style={styles.contact_text}>Công Thức</Text>
               <Image
                 source={icons.next}
                 style={{
@@ -139,6 +142,36 @@ const Profile = ({navigation}) => {
               />
             </View>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('MyShareScreen')}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: SIZES.padding,
+                paddingVertical: SIZES.padding,
+                borderBottomColor: COLORS.darkgray,
+                borderBottomWidth: 1,
+              }}>
+              <Image
+                source={icons.comment}
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+              />
+              <Text style={styles.contact_text}>Bài Chia sẻ </Text>
+              <Image
+                source={icons.next}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: COLORS.black,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => {
               dispatch(setUser(null));
@@ -161,7 +194,7 @@ const Profile = ({navigation}) => {
                   height: 25,
                 }}
               />
-              <Text style={styles.contact_text}>Log out</Text>
+              <Text style={styles.contact_text}>Đăng Xuất</Text>
               <Image
                 source={icons.next}
                 style={{

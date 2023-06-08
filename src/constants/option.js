@@ -54,6 +54,14 @@ const FoodApi = {
       console.log(error);
     }
   },
+  getPostOfUer: async id => {
+    try {
+      const url = await axios.get(`${LOCAL_URL}/api/view-post-user/${id}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getLimitCuisine: () => {
     try {
       const url = axios.get(`${LOCAL_URL}/api/view-cuisine`);
@@ -128,6 +136,14 @@ const FoodApi = {
       console.log(error);
     }
   },
+  getCommentPost: async id => {
+    try {
+      const url = await axios.get(`${LOCAL_URL}/api/view-comment-post/${id}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   postComment: async data => {
     try {
       const url = await axios.post(`${LOCAL_URL}/api/store-comment`, data);
@@ -136,9 +152,38 @@ const FoodApi = {
       console.log(error);
     }
   },
+  postCommentPost: async data => {
+    try {
+      const url = await axios.post(`${LOCAL_URL}/api/store-comment-post`, data);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  postReplayComment: async data => {
+    try {
+      const url = await axios.post(
+        `${LOCAL_URL}/api/store-replay-comment`,
+        data,
+      );
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   deleteComment: async id => {
     try {
       const url = await axios.delete(`${LOCAL_URL}/api/delete-comment/${id}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteReplyComment: async id => {
+    try {
+      const url = await axios.delete(
+        `${LOCAL_URL}/api/delete-comment-reply/${id}`,
+      );
       return url;
     } catch (error) {
       console.log(error);
@@ -192,6 +237,30 @@ const FoodApi = {
       console.log(error);
     }
   },
+  postUpdateCuisine: async (id, data) => {
+    try {
+      const url = await axios.post(
+        `${LOCAL_URL}/api/update-cuisine/${id}`,
+        data,
+        {
+          headers: {'Content-Type': 'multipart/form-data'},
+        },
+      );
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  postUpdatePost: async (id, data) => {
+    try {
+      const url = await axios.post(`${LOCAL_URL}/api/update-post/${id}`, data, {
+        headers: {'Content-Type': 'multipart/form-data'},
+      });
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getFavourite: async id => {
     try {
       const url = await axios.get(`${LOCAL_URL}/api/get-favourite/${id}`);
@@ -221,6 +290,22 @@ const FoodApi = {
   searchCuisine: async key => {
     try {
       const url = await axios.get(`${LOCAL_URL}/api/search-cuisine/${key}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteCuisine: async id => {
+    try {
+      const url = await axios.delete(`${LOCAL_URL}/api/delete-cuisine/${id}`);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deletePost: async id => {
+    try {
+      const url = await axios.delete(`${LOCAL_URL}/api/delete-post/${id}`);
       return url;
     } catch (error) {
       console.log(error);

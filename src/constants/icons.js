@@ -15,6 +15,9 @@ export const profileuser = require('../assets/icons/profile-user.png');
 export const next = require('../assets/icons/next.png');
 export const google = require('../assets/icons/google.png');
 export const youtube = require('../assets/icons/youtube.png');
+export const edit = require('../assets/icons/edit.png');
+export const trash = require('../assets/icons/trash-can.png');
+export const send = require('../assets/icons/send-message.png');
 
 export default {
   cutlery,
@@ -34,4 +37,7 @@ export default {
   next,
   google,
   youtube,
+  edit,
+  trash,
+  send,
 };

@@ -21,6 +21,8 @@ import {setUser} from '../redux/actions';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import FoodApi from '../constants/option';
+import LottieView from 'lottie-react-native';
+import {COLORS} from '../constants';
 
 const SignIn = ({navigation}) => {
   const dispatch = useDispatch();
@@ -60,8 +62,26 @@ const SignIn = ({navigation}) => {
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Welcome back.</Header>
+      <View
+        style={{
+          width: '100%',
+          // height: 200,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <LottieView
+          autoPlay
+          speed={0.5}
+          // duration={5000}
+          loop={true}
+          style={{
+            height: 250,
+            alignSelf: 'center',
+          }}
+          source={require('../assets/anim/88782-women-cooking-in-kitchen.json')}
+        />
+        <Header>Welcome back.</Header>
+      </View>
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -75,7 +95,7 @@ const SignIn = ({navigation}) => {
         keyboardType="email-address"
       />
       <TextInput
-        label="Password"
+        label="Mật Khẩu"
         returnKeyType="done"
         value={password.value}
         onChangeText={text => setPassword({value: text, error: ''})}
@@ -84,18 +104,18 @@ const SignIn = ({navigation}) => {
         secureTextEntry
       />
       <View style={styles.forgotPassword}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('ResetPasswordScreen')}>
           <Text style={styles.forgot}>Forgot your password?</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Button mode="contained" onPress={onLoginPressed}>
-        Login
+        Đăng Nhập
       </Button>
       <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
+        <Text>Bạn chưa có tài khoản? </Text>
         <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
-          <Text style={styles.link}>Sign up</Text>
+          <Text style={styles.link}>Đăng Ký</Text>
         </TouchableOpacity>
       </View>
     </Background>
@@ -120,6 +140,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: COLORS.primary,
   },
 });

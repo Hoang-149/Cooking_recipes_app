@@ -12,6 +12,10 @@ export function commentValidator(comment) {
   if (!comment) return 'Comment không thể để trống.';
   return '';
 }
+export function replaycommentValidator(comment) {
+  if (!comment) return 'Comment không thể để trống.';
+  return '';
+}
 export function durationValidator(duration) {
   if (!duration) return 'Thời gian không thể để trống.';
   return '';
@@ -24,10 +28,6 @@ export function stepsValidator(steps) {
   if (!steps) return 'Các bước thực hiện không thể để trống.';
   return '';
 }
-// export function urlWebsiteValidator(urlWebsite) {
-//   if (!urlWebsite) return "Link Website không thể để trống.";
-//   return '';
-// }
 
 export const urlWebsiteValidator = url => {
   if (url) {
@@ -62,7 +62,3 @@ export const urlYoutubeValidator = url => {
     }
   }
 };
-// export function urlYoutubeValidator(urlYoutube) {
-//   if (!urlYoutube) return "Link Youtube không thể để trống.";
-//   return '';
-// }

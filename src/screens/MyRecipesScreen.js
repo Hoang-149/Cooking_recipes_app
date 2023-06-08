@@ -17,6 +17,7 @@ import FoodApi from '../constants/option';
 import HeaderProfile from '../components/HeaderProfile';
 import MenuList from '../components/MenuList';
 import {useSelector} from 'react-redux';
+import MenuList2 from '../components/MenuList2';
 
 const MyRecipesScreen = ({navigation, route}) => {
   const {user} = useSelector(state => state.userReducer);
@@ -25,6 +26,19 @@ const MyRecipesScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    callAllRecipes();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // do something
+      callAllRecipes();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const callAllRecipes = () => {
     FoodApi.getAllCuisineOfUser(user?.id).then(res => {
       const newCuisineList = res.data.cuisine;
       // console.log(res.data.cuisine);
@@ -32,7 +46,7 @@ const MyRecipesScreen = ({navigation, route}) => {
       setCuisineList(newCuisineList);
       setLoading(false);
     });
-  }, []);
+  };
 
   return (
     <SafeAreaView
@@ -40,7 +54,7 @@ const MyRecipesScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'My Recipes'} />
+      <HeaderProfile navigation={navigation} textHeader={'Công Thức Của Tôi'} />
       {loading ? (
         <ActivityIndicator
           size="large"
@@ -48,16 +62,35 @@ const MyRecipesScreen = ({navigation, route}) => {
           style={{flex: 1}}
         />
       ) : (
-        <MenuList
+        <MenuList2
           navigation={navigation}
           menu={cuisineList}
-          //   onPressFavourite={addToFavourite}
+          onPresscallAllRecipes={callAllRecipes}
           // like={true}
           user={user?.id}
           // categories={categoryData}
           // categorySelected={categorySelected}
         />
       )}
+      <View
+        style={{
+          position: 'absolute',
+          right: 20,
+          bottom: 20,
+        }}>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateRecipe')}>
+          <Image
+            source={icons.plus}
+            resizeMode="contain"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 40,
+              tintColor: COLORS.primary,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

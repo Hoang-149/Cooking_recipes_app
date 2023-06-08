@@ -5,26 +5,48 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 import React from 'react';
 import {images, COLORS, SIZES, FONTS, icons, DATABASE_URL} from '../constants';
 import {DATABASE_URL_IMG} from '../constants/database';
+import FoodApi from '../constants/option';
 
-const MenuList = ({
+const MenuList2 = ({
   navigation,
   menu,
-  onPressFavourite,
+  onPresscallAllRecipes,
   user,
   like,
   categorySelected,
   categories,
 }) => {
-  function getCategoryNameById(id) {
-    let category = categories.filter(a => a.id == id);
-    if (category.length > 0) {
-      return category[0].name;
-    } else return '';
-  }
+  const onDelPress = item => {
+    Alert.alert('Bạn có chắc?', 'Bạn có chắc muốn xóa món này không?', [
+      // The "Yes" button
+      {
+        text: 'Có',
+        onPress: () => {
+          FoodApi.deleteCuisine(item).then(response => {
+            if (response.data.status === 200) {
+              console.log(response.data.cuisine);
+              ToastAndroid.show(response.data.cuisine, ToastAndroid.SHORT);
+              onPresscallAllRecipes;
+            } else {
+              console.log(response.data.cuisine);
+              ToastAndroid.show(response.data.cuisine, ToastAndroid.SHORT);
+            }
+          });
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: 'Không',
+      },
+    ]);
+  };
 
   const renderItem = ({item}) => {
     // console.log(item.id_cuisine);
@@ -43,6 +65,7 @@ const MenuList = ({
             idCuisine: item.id_cuisine,
           })
         }
+        onLongPress={() => onDelPress(item.id)}
         style={{
           width: SIZES.width * 0.5 - 24,
           height: 200,
@@ -52,6 +75,27 @@ const MenuList = ({
           backgroundColor: COLORS.white,
           margin: 8,
         }}>
+        <View
+          style={{
+            position: 'absolute',
+            height: 20,
+            width: '50%',
+            left: 0,
+            top: 0,
+            backgroundColor: item.status == 1 ? COLORS.primary : 'red',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 999,
+            borderRadius: 25,
+          }}>
+          <Text
+            style={{
+              color: 'white',
+            }}>
+            {item.status == 1 ? 'Đã duyệt' : 'Chưa duyệt'}
+          </Text>
+        </View>
+
         <Image
           source={{
             uri: `${DATABASE_URL_IMG}/cuisine/${item?.image}`,
@@ -69,6 +113,7 @@ const MenuList = ({
             style={{
               ...FONTS.body4,
               height: 36,
+              // backgroundColor: 'red',
               color: COLORS.black,
               textAlign: 'center',
             }}>
@@ -82,37 +127,46 @@ const MenuList = ({
             {item.duration} phút
           </Text>
         </View>
+
         <TouchableOpacity
           style={{
-            top: 14,
-            right: 14,
+            top: 6,
+            right: 36,
             position: 'absolute',
             flexDirection: 'row',
           }}
-          // onPress={() => {
-          //   onPressFavourite(tt);
-          // }}
-        >
+          onPress={() =>
+            navigation.navigate('UpdateCuisineScreen', {
+              currentItem: item,
+              stt: '0',
+            })
+          }>
           <Image
-            source={icons.like}
+            source={icons.edit}
             style={{
               width: 20,
               height: 20,
-              tintColor: tt ? 'red' : COLORS.darkgray,
+              tintColor: COLORS.primary,
             }}
           />
-          {item.favourite_count > 0 ? (
-            <Text
-              style={{
-                ...FONTS.body3,
-                color: 'black',
-                paddingLeft: SIZES.padding * 0.3,
-              }}>
-              {item.favourite_count}
-            </Text>
-          ) : (
-            ''
-          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            top: 6,
+            right: 10,
+            position: 'absolute',
+            flexDirection: 'row',
+          }}
+          onPress={() => onDelPress(item.id)}>
+          <Image
+            source={icons.trash}
+            style={{
+              width: 20,
+              height: 20,
+              tintColor: COLORS.primary,
+              paddingLeft: SIZES.padding,
+            }}
+          />
         </TouchableOpacity>
       </TouchableOpacity>
     );
@@ -121,10 +175,10 @@ const MenuList = ({
   return (
     <View style={{flex: 1}}>
       {/* {!categorySelected ? (
-        <Text style={{...FONTS.h3, paddingLeft: 16, paddingBottom: 8}}>
-          Món ăn nổi bật
-        </Text>
-      ) : null} */}
+          <Text style={{...FONTS.h3, paddingLeft: 16, paddingBottom: 8}}>
+            Món ăn nổi bật
+          </Text>
+        ) : null} */}
 
       <FlatList
         data={menu}
@@ -142,4 +196,4 @@ const MenuList = ({
   );
 };
 
-export default MenuList;
+export default MenuList2;

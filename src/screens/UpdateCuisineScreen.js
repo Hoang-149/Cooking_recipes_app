@@ -39,9 +39,12 @@ import RNFS from 'react-native-fs';
 import {theme} from '../core/theme';
 import FoodApi from '../constants/option';
 import LottieView from 'lottie-react-native';
+import {DATABASE_URL_IMG} from '../constants/database';
 
-const CreateRecipe = ({navigation}) => {
+const UpdateCuisineScreen = ({navigation, route}) => {
   const {user} = useSelector(state => state.userReducer);
+  const [item, setItem] = useState([]);
+  const [stt, setStt] = useState('0');
 
   const [image, setImage] = useState('');
   const [name, setName] = useState({value: '', error: ''});
@@ -55,12 +58,37 @@ const CreateRecipe = ({navigation}) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const [category, setCategory] = useState([]);
-  // console.log(category);
+  // console.log(typeof item.category_id);
+  // console.log(typeof parseInt(item.category_id));
 
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(4);
   const [selectedDiff, setSelectedDiff] = useState('Dễ');
 
   const [displayAnim, setDisplayAnim] = useState(false);
+
+  useEffect(() => {
+    const {currentItem, stt} = route.params;
+    // console.log(currentItem);
+    setItem(currentItem);
+    // setStt(stt);
+
+    setName({value: currentItem.name, error: ''});
+
+    setSelectedItem(parseInt(currentItem.category_id));
+
+    setSelectedDiff({value: currentItem.difficulty, error: ''});
+    setDuration({value: currentItem.duration.toString(), error: ''});
+    setIngredients({value: currentItem.ingredients, error: ''});
+    setSteps({value: currentItem.steps, error: ''});
+    setUrlWebsite({
+      value: currentItem.websiteURL == null ? '' : currentItem.websiteURL,
+      error: '',
+    });
+    setUrlYoutube({
+      value: currentItem.youtubeURL == null ? '' : currentItem.youtubeURL,
+      error: '',
+    });
+  }, []);
 
   useEffect(() => {
     FoodApi.getAllCategory().then(response => {
@@ -71,30 +99,10 @@ const CreateRecipe = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if (category && category.length > 0) {
-      setSelectedItem(category[0].id);
-    }
-  }, [category]);
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     setCurrentStep(1);
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
-
-  useEffect(() => {
     const timeout = setTimeout(() => {
       setDisplayAnim(false);
       // console.log('timeout');
-    }, 4500);
-    setName('');
-    setSelectedDiff('Dễ');
-    setDuration('');
-    setIngredients('');
-    setSteps('');
-    setUrlWebsite('');
-    setUrlYoutube('');
+    }, 4000);
   }, [displayAnim]);
 
   const onNextStep1 = () => {
@@ -136,26 +144,32 @@ const CreateRecipe = ({navigation}) => {
       return;
     }
 
-    const uri =
-      Platform.OS === 'android' ? image.uri : image.uri.replace('file://', '');
-    const filename = image.uri.split('/').pop();
-    const regex = /\.(\w+)$/;
-
-    const ext = filename.match(regex);
-    // console.log(ext);
-
-    const ext1 = filename.match(regex)[1];
-    // console.log(ext1);
-
-    const type = ext ? `image/${ext[1]}` : `image`;
-    // console.log(type);
-
     const formData = new FormData();
-    formData.append('image', {
-      uri,
-      name: `image.${ext1}`,
-      type,
-    });
+
+    if (image) {
+      const uri =
+        Platform.OS === 'android'
+          ? image.uri
+          : image.uri.replace('file://', '');
+      const filename = image.uri.split('/').pop();
+      const regex = /\.(\w+)$/;
+
+      const ext = filename.match(regex);
+      // console.log(ext);
+
+      const ext1 = filename.match(regex)[1];
+      // console.log(ext1);
+
+      const type = ext ? `image/${ext[1]}` : `image`;
+      // console.log(type);
+
+      formData.append('image', {
+        uri,
+        name: `image.${ext1}`,
+        type,
+      });
+    }
+
     formData.append('name', name.value);
     formData.append('user_id', user.id);
     formData.append('category_id', selectedItem);
@@ -165,30 +179,32 @@ const CreateRecipe = ({navigation}) => {
     formData.append('steps', steps.value);
     formData.append('websiteURL', urlWebsite.value);
     formData.append('youtubeURL', urlYoutube.value);
+    formData.append('status', stt);
 
     // console.log(formData);
 
-    FoodApi.postCreateRecipe(formData)
+    FoodApi.postUpdateCuisine(item.id, formData)
       .then(response => {
         // handle the response data
         // console.log(response.data);
         if (response.data.status === 200) {
           console.log(response.data.message);
-          setImage('');
-          setName('');
-          setDuration('');
-          setIngredients('');
-          setSteps('');
-          setUrlWebsite('');
-          setUrlYoutube('');
 
           setCurrentStep(1);
           setDisplayAnim(true);
-          ToastAndroid.show('Thêm Công Thức Thành Công', ToastAndroid.SHORT);
+          ToastAndroid.show(
+            'Cập Nhật Công Thức Thành Công',
+            ToastAndroid.SHORT,
+          );
+          const timeout = setTimeout(() => {
+            // setDisplayAnim(false);
+            // console.log('timeout');
+            navigation.navigate('MyRecipesScreen');
+          }, 4500);
         } else {
           console.log(response.data.message);
           ToastAndroid.show(
-            'Thêm Công Thức không Thành Công',
+            'Cập Nhật Công Thức Không Thành Công',
             ToastAndroid.SHORT,
           );
         }
@@ -231,7 +247,7 @@ const CreateRecipe = ({navigation}) => {
                 fontWeight: '700',
                 backgroundColor: 'white',
               }}>
-              Thêm Công Thức
+              Cập Nhật Công Thức
             </Text>
             {displayAnim ? (
               <View
@@ -286,42 +302,39 @@ const CreateRecipe = ({navigation}) => {
                           alignSelf: 'center',
                           borderRadius: 25,
                         }}>
-                        {/* User Photo */}
-                        {image == 'default' ||
-                        image == '' ||
-                        image == undefined ? (
-                          <View>
-                            <TouchableOpacity
-                              onPress={openGallery}
-                              style={
-                                {
-                                  // backgroundColor: COLORS.lightGray,
-                                  // paddingVertical: 10,
-                                  // paddingHorizontal: 20,
-                                  // borderRadius: 10,
-                                }
-                              }>
-                              <Image
-                                source={icons.plus}
-                                resizeMode="contain"
-                                style={{
-                                  width: 36,
-                                  height: 36,
-                                  tintColor: COLORS.primary,
-                                }}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        ) : (
-                          <Image
-                            source={{uri: image.uri}}
-                            style={{
-                              width: 200,
-                              height: 200,
-                              alignSelf: 'center',
-                            }}
-                          />
-                        )}
+                        <View>
+                          {image ? (
+                            <Image
+                              source={{uri: image.uri}}
+                              style={{
+                                width: 200,
+                                height: 200,
+                                alignSelf: 'center',
+                              }}
+                            />
+                          ) : item?.image ? (
+                            <Image
+                              source={{
+                                uri: `${DATABASE_URL_IMG}/cuisine/${item?.image}`,
+                              }}
+                              style={{
+                                width: 200,
+                                height: 200,
+                                alignSelf: 'center',
+                              }}
+                            />
+                          ) : (
+                            <Image
+                              source={icons.plus}
+                              resizeMode="contain"
+                              style={{
+                                width: 36,
+                                height: 36,
+                                tintColor: COLORS.primary,
+                              }}
+                            />
+                          )}
+                        </View>
                       </View>
                     </TouchableOpacity>
 
@@ -437,8 +450,8 @@ const CreateRecipe = ({navigation}) => {
                           onValueChange={(itemValue, itemIndex) =>
                             setSelectedDiff(itemValue)
                           }>
-                          <Picker.Item label="Dễ" value="Dễ" />
                           <Picker.Item label="Trung bình" value="Trung bình" />
+                          <Picker.Item label="Dễ" value="Dễ" />
                           <Picker.Item label="Khó" value="Khó" />
                         </Picker>
                       </View>
@@ -455,7 +468,7 @@ const CreateRecipe = ({navigation}) => {
                           ...FONTS.body3,
                           // fontWeight: '700',
                         }}>
-                        Thời gian thực hiện(phút)
+                        Thời gian (phút)
                       </Text>
                       <TextInput
                         value={duration.value}
@@ -649,4 +662,4 @@ const CreateRecipe = ({navigation}) => {
   );
 };
 
-export default CreateRecipe;
+export default UpdateCuisineScreen;
