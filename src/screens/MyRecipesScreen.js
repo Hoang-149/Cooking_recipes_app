@@ -18,16 +18,13 @@ import HeaderProfile from '../components/HeaderProfile';
 import MenuList from '../components/MenuList';
 import {useSelector} from 'react-redux';
 import MenuList2 from '../components/MenuList2';
+import HeaderProfile2 from '../components/HeaderProfile2';
 
 const MyRecipesScreen = ({navigation, route}) => {
   const {user} = useSelector(state => state.userReducer);
 
   const [cuisineList, setCuisineList] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    callAllRecipes();
-  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -54,7 +51,10 @@ const MyRecipesScreen = ({navigation, route}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      <HeaderProfile navigation={navigation} textHeader={'Công Thức Của Tôi'} />
+      <HeaderProfile2
+        navigation={navigation}
+        textHeader={'Công Thức Của Tôi'}
+      />
       {loading ? (
         <ActivityIndicator
           size="large"

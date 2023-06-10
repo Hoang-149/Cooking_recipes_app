@@ -1,48 +1,52 @@
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   ActivityIndicator,
   RefreshControl,
   ScrollView,
+  View,
+  Text,
 } from 'react-native';
-import React, {useState, useEffect, useCallback} from 'react';
-import {COLORS, SIZES} from '../constants';
-import HomeHeader from '../components/HomeHeader';
-import {Tab, Text, TabView} from '@rneui/themed';
-import Post from '../components/Post';
-import FoodApi from '../constants/option';
+import {useSelector} from 'react-redux';
+import {COLORS, FONTS, SIZES} from '../constants';
+import Header3 from '../components/Header3';
 import PostList from '../components/PostList';
+import FoodApi from '../constants/option';
+import {CustomButton} from '../components/CustomButton';
 
 const CommunityScreen = ({navigation}) => {
-  const [index, setIndex] = useState(0);
+  const {user} = useSelector(state => state.userReducer);
 
   const [postList, setPostList] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const [allComment, setAllComment] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      // do something
       callAllPost();
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, callAllPost]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    callAllPost();
+    setRefreshing(false);
+  }, [callAllPost]);
 
   const callAllPost = () => {
     FoodApi.getAllPost().then(res => {
       const newPostList = res.data.post;
-      // console.log(res.data.post);
 
       setPostList(newPostList);
       setLoading(false);
 
-      setRefreshing(false);
-
-      // Lấy danh sách comment cho mỗi bài post
       newPostList.forEach(post => {
-        getCommentPost(post.id); // Thay postId bằng ID của bài post
+        getCommentPost(post.id);
       });
     });
   };
@@ -51,16 +55,31 @@ const CommunityScreen = ({navigation}) => {
     FoodApi.getCommentPost(postId).then(response => {
       const newCommentList = response.data.comments;
 
-      // console.log(response.data.comments);
+      console.log(response.data.comments);
 
-      setAllComment(newCommentList);
+      setAllComment(prevComments => {
+        const newPrev = prevComments.filter(item => item.postId !== postId);
+
+        return [...newPrev, {postId, comments: newCommentList}];
+      });
     });
   };
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
+  const handleCommentDeleted = deletedCommentId => {
+    // Xóa comment từ danh sách comments
+    // const updatedComments = allComment.filter(
+    //   comment => comment.id !== deletedCommentId,
+    // );
+    // console.log(deletedCommentId);
+    // setAllComment(prevComments => {
+    //   const newPrev = prevComments.filter(
+    //     item => item.postId !== deletedCommentId,
+    //   );
+
+    //   return [...newPrev];
+    // });
     callAllPost();
-  }, [refreshing]);
+  };
 
   return (
     <SafeAreaView
@@ -68,36 +87,9 @@ const CommunityScreen = ({navigation}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray4,
       }}>
-      {/* <ScrollView
-        style={{
-          flex: 1,
-        }}
-        nestedScrollEnabled={true}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }> */}
-      {/* <HomeHeader /> */}
-      <Tab
-        value={index}
-        onChange={e => setIndex(e)}
-        indicatorStyle={{
-          backgroundColor: 'white',
-          height: 3,
-        }}
-        variant="primary">
-        <Tab.Item title="Thực hiện" titleStyle={{fontSize: 12}} />
-        <Tab.Item title="Công thức" titleStyle={{fontSize: 12}} />
-      </Tab>
-
-      <TabView value={index} onChange={setIndex} animationType="spring">
-        <TabView.Item
-          style={{
-            marginHorizontal: SIZES.padding,
-            // alignContent: 'center',
-            // backgroundColor: 'red',
-            alignItems: 'center',
-            flex: 1,
-          }}>
+      {user ? (
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Header3 textHeader={'Cộng Đồng'} />
           {loading ? (
             <ActivityIndicator
               size="large"
@@ -110,15 +102,40 @@ const CommunityScreen = ({navigation}) => {
               allComment={allComment}
               menu={postList}
               callAllPost={callAllPost}
+              getCommentPost={getCommentPost}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              onCommentDeleted={handleCommentDeleted}
             />
           )}
-        </TabView.Item>
-
-        <TabView.Item style={{width: '100%'}}>
-          {/* <Text h1>Bài Post</Text> */}
-        </TabView.Item>
-      </TabView>
-      {/* </ScrollView> */}
+        </View>
+      ) : (
+        <View style={{flex: 1}}>
+          <Text
+            style={{
+              paddingTop: 8,
+              paddingVertical: SIZES.padding,
+              textAlign: 'center',
+              ...FONTS.h2,
+              fontWeight: '700',
+              backgroundColor: 'white',
+              marginBottom: 30,
+            }}>
+            Thông Báo
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              marginHorizontal: SIZES.padding * 3,
+            }}>
+            <CustomButton
+              text={'Đăng nhập'}
+              onPressButton={() => navigation.navigate('LoginScreen')}
+            />
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

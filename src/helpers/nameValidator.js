@@ -62,3 +62,20 @@ export const urlYoutubeValidator = url => {
     }
   }
 };
+
+// export const urlYoutubeValidator = url => {
+//   if (url) {
+//     const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+//     if (regex.test(url)) {
+//       Linking.canOpenURL(url).then(supported => {
+//         if (!supported) {
+//           return 'Đường dẫn không đúng.';
+//         } else {
+//           return '';
+//         }
+//       });
+//     } else {
+//       return 'Đường dẫn không đúng.';
+//     }
+//   }
+// };

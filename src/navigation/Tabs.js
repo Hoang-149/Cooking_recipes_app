@@ -214,6 +214,7 @@ const Tabs = () => {
             />
           ),
           headerShown: false,
+          tabBarVisible: true, // Hiển thị thanh điều hướng tab
           tabBarButton: props => <TabBarCustomButton {...props} />,
         }}
       />

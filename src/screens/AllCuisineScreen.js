@@ -37,7 +37,7 @@ const AllCuisineScreen = ({navigation, route}) => {
   const [displaySearch, setDisplaySearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const inputRef = useRef(null);
+  const textInputRef = useRef(null);
 
   useEffect(() => {
     const {idCate, value} = route.params;
@@ -102,6 +102,9 @@ const AllCuisineScreen = ({navigation, route}) => {
 
   const onDisplayPress = () => {
     setDisplaySearch(true);
+    if (textInputRef.current) {
+      textInputRef.current.focus();
+    }
   };
 
   const onHiddenPress = () => {
@@ -141,7 +144,7 @@ const AllCuisineScreen = ({navigation, route}) => {
               flex: 10,
             }}>
             <SearchBar
-              // ref={inputRef}
+              ref={textInputRef}
               placeholder="Tìm theo công thức, nguyên liệu"
               fontColor="#c6c6c6"
               iconColor="#c6c6c6"

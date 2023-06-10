@@ -158,7 +158,8 @@ const MyProfileScreen = ({navigation, route}) => {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+
+            {/* <TouchableOpacity>
               <View
                 style={{
                   height: 10,
@@ -177,7 +178,7 @@ const MyProfileScreen = ({navigation, route}) => {
                   Xóa hình ảnh
                 </Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <View

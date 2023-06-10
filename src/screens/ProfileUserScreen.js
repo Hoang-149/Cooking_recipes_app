@@ -117,7 +117,7 @@ const Profile = ({navigation, route}) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() =>
               navigation.navigate('UserPostScreen', {userItem: user})
             }>
@@ -146,7 +146,7 @@ const Profile = ({navigation, route}) => {
                 }}
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </SafeAreaView>
     </>

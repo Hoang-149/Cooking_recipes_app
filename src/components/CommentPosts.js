@@ -17,7 +17,7 @@ import {
   replaycommentValidator,
 } from '../helpers/nameValidator';
 
-const Comments = ({
+const CommentPosts = ({
   comment,
   callAllComment,
   userCuisine,
@@ -267,7 +267,7 @@ const Comments = ({
             <TextInput
               ref={textInputRef}
               onFocus={onDisplayUpdate}
-              // onBlur={onHideUpdate}
+              onBlur={onHideUpdate}
               value={content}
               multiline={true}
               onChangeText={text => setContent(text)}
@@ -533,4 +533,4 @@ const Comments = ({
   );
 };
 
-export default Comments;
+export default CommentPosts;

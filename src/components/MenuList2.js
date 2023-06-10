@@ -92,7 +92,7 @@ const MenuList2 = ({
             style={{
               color: 'white',
             }}>
-            {item.status == 1 ? 'Đã duyệt' : 'Chưa duyệt'}
+            {item.status == 1 ? 'Đã duyệt' : 'Chờ duyệt'}
           </Text>
         </View>
 

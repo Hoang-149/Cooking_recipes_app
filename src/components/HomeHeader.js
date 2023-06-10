@@ -6,7 +6,7 @@ import SearchBar from 'react-native-dynamic-search-bar';
 import FoodApi from '../constants/option';
 import {useNavigation} from '@react-navigation/native';
 
-const HomeHeader = ({searchMenu, avatar}) => {
+const HomeHeader = ({searchMenu, user}) => {
   const navigation = useNavigation();
 
   const [searchValue, setSearchValue] = useState([]);
@@ -33,13 +33,13 @@ const HomeHeader = ({searchMenu, avatar}) => {
           justifyContent: 'center',
         }}
         onPress={() =>
-          avatar
+          user
             ? navigation.navigate('Profile')
             : navigation.navigate('ProfileGuest')
         }>
-        {avatar ? (
+        {user?.image ? (
           <Image
-            source={{uri: `${DATABASE_URL_IMG}/users/${avatar}`}}
+            source={{uri: `${DATABASE_URL_IMG}/users/${user?.image}`}}
             style={{width: 35, height: 35, borderRadius: SIZES.radius}}
           />
         ) : (

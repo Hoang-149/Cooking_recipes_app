@@ -6,32 +6,22 @@ import {
   TouchableOpacity,
   FlatList,
   ToastAndroid,
-  ScrollView,
-  RefreshControl,
 } from 'react-native';
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {images, COLORS, SIZES, FONTS, icons, DATABASE_URL} from '../constants';
 import {DATABASE_URL_IMG} from '../constants/database';
 import {commentValidator} from '../helpers/nameValidator';
 import FoodApi from '../constants/option';
 import {useSelector} from 'react-redux';
-import CommentList from './CommentList';
+import Comments from './Comments';
+import CommentPosts from './CommentPosts';
 
-const PostList = ({
-  navigation,
-  allComment,
-  menu,
-  callAllPost,
-  getCommentPost,
-  refreshing,
-  onRefresh,
-  onCommentDeleted,
-}) => {
+const PostList = ({navigation, allComment, menu, callAllPost}) => {
   const {user} = useSelector(state => state.userReducer);
 
   const [comment, setComment] = useState({value: '', error: ''});
 
-  const onCommentPressed = async postId => {
+  const onCommentPressed = async item => {
     const commentError = commentValidator(comment.value);
     if (commentError) {
       setComment({...comment, error: commentError});
@@ -40,20 +30,21 @@ const PostList = ({
 
     const dataComment = {
       id_user: user.id,
-      id_post: postId,
+      id_post: item,
       content: comment.value,
     };
 
+    // console.log(dataComment);
+    // setComment('');
+
     FoodApi.postCommentPost(dataComment).then(response => {
       if (response.data.status === 200) {
+        console.log(response.data.message);
         ToastAndroid.show('Bình luận thành công', ToastAndroid.SHORT);
-        setComment({value: '', error: ''});
-
-        // const newComment = response.data.comment;
-
-        getCommentPost(postId);
+        setComment('');
         callAllPost();
       } else {
+        console.log(response.data.message);
         ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
       }
     });
@@ -64,6 +55,7 @@ const PostList = ({
       <View
         style={{
           width: SIZES.width * 0.95,
+          // height: 200,
           elevation: 1,
           alignItems: 'center',
           borderRadius: SIZES.radius * 0.5,
@@ -76,15 +68,21 @@ const PostList = ({
             paddingLeft: SIZES.padding,
             justifyContent: 'space-between',
             alignItems: 'center',
+            //   backgroundColor: 'red',
             width: '100%',
             paddingHorizontal: SIZES.padding,
             paddingTop: SIZES.padding,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+            }}>
             <Image
               source={{
                 uri: `${DATABASE_URL_IMG}/users/${item?.user?.image}`,
+                // cache: 'force-cache',
               }}
+              // source={require('../assets/icons/user.png')}
               style={{width: 35, height: 35, borderRadius: SIZES.radius}}
             />
             <Text
@@ -92,7 +90,9 @@ const PostList = ({
                 ...FONTS.body3,
                 fontWeight: 'bold',
                 paddingLeft: SIZES.padding,
+                // paddingVertical: SIZES.padding,
                 color: 'black',
+                //   textAlign: 'auto',
               }}>
               {item?.user?.name}
             </Text>
@@ -114,6 +114,7 @@ const PostList = ({
 
         <View
           style={{
+            // backgroundColor: 'red',
             width: '100%',
             paddingHorizontal: SIZES.padding,
             marginTop: SIZES.padding,
@@ -130,6 +131,7 @@ const PostList = ({
         <View
           style={{
             backgroundColor: COLORS.lightGray2,
+            // opacity: 0.8,
             flex: 1,
             width: '100%',
             marginTop: SIZES.padding,
@@ -137,6 +139,11 @@ const PostList = ({
             paddingVertical: SIZES.padding,
           }}>
           <TouchableOpacity
+            style={
+              {
+                // tex: '',
+              }
+            }
             onPress={() =>
               navigation.navigate('FoodDetail', {
                 currentItem: item?.cuisine,
@@ -144,6 +151,7 @@ const PostList = ({
               })
             }>
             <Image
+              // source={require('../assets/images/nuong.png')}
               source={{
                 uri: `${DATABASE_URL_IMG}/cuisine/${item?.cuisine?.image}`,
               }}
@@ -171,6 +179,7 @@ const PostList = ({
                 color: 'white',
                 ...FONTS.body3,
                 fontWeight: '700',
+                // paddingVertical: SIZES.padding,
               }}>
               {item?.cuisine?.name}
             </Text>
@@ -179,6 +188,7 @@ const PostList = ({
 
         <View
           style={{
+            // backgroundColor: 'red',
             width: '100%',
             paddingHorizontal: SIZES.padding,
             marginTop: SIZES.padding,
@@ -188,6 +198,7 @@ const PostList = ({
               ...FONTS.h4,
               fontSize: 16,
               fontWeight: 'bold',
+              // paddingBottom: SIZES.padding,
             }}>
             Bình luận
           </Text>
@@ -195,24 +206,33 @@ const PostList = ({
 
         <View
           style={{
+            // marginTop: 50,
+            // backgroundColor: 'blue',
             width: '95%',
             marginHorizontal: SIZES.padding,
             marginTop: SIZES.padding,
           }}>
-          <CommentList
-            postId={item.id}
-            allComment={allComment}
-            onCommentDeleted={onCommentDeleted}
-            idUserPost={item?.user?.id}
-          />
+          {allComment.map((comment, i) => (
+            <CommentPosts
+              key={i}
+              comment={comment}
+              callAllComment={callAllPost}
+              userCuisine={item?.user?.id}
+            />
+          ))}
         </View>
 
-        {user && (
+        {/* {allComment.map(comment => (
+              <Text key={comment.id}>{comment.content}</Text>
+            ))} */}
+        {user ? (
           <View
             style={{
+              // marginTop: 50,
+              // backgroundColor: 'blue',
               width: '90%',
               marginHorizontal: SIZES.padding * 3,
-              marginBottom: SIZES.padding,
+              marginVertical: SIZES.padding,
             }}>
             <TextInput
               placeholder="Hãy viết một điều gì đó"
@@ -223,23 +243,30 @@ const PostList = ({
               errorText={comment.error}
               autoCapitalize="none"
               borderBottomColor="green"
-              borderBottomWidth={1}
+              borderBottomWidth={3}
+              // borderLeftColor="green"
+              // borderLeftWidth={3}
+              // borderRightColor="green"
+              // borderRightWidth={3}
               style={{
                 padding: 10,
                 ...FONTS.body3,
                 height: 40,
+                // borderColor: COLORS.darkgray,
+                // borderWidth: 1,
                 textAlignVertical: 'top',
               }}
             />
 
             <TouchableOpacity
-              onPress={() => onCommentPressed(item.id)}
               style={{
                 position: 'absolute',
                 bottom: 10,
-                right: 2,
+                right: 8,
                 alignItems: 'center',
-              }}>
+                // alignSelf: 'center',
+              }}
+              onPress={() => onCommentPressed(item.id)}>
               <Image
                 source={icons.send}
                 style={{
@@ -250,6 +277,8 @@ const PostList = ({
               />
             </TouchableOpacity>
           </View>
+        ) : (
+          ''
         )}
       </View>
     );
@@ -257,18 +286,26 @@ const PostList = ({
 
   return (
     <View style={{flex: 1}}>
+      {/* {!categorySelected ? (
+            <Text style={{...FONTS.h3, paddingLeft: 16, paddingBottom: 8}}>
+              Món ăn nổi bật
+            </Text>
+          ) : null} */}
+
       <FlatList
         data={menu}
         numColumns={1}
         keyExtractor={item => item.id}
         renderItem={renderItem}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh} // Call your refresh function here
-          />
+        contentContainerStyle={
+          {
+            // paddingLeft: 8,
+            // paddingRight: 8,
+            // paddingBottom: 16,
+            // paddingTop: 16,
+            // backgroundColor: 'red',
+          }
         }
-        contentContainerStyle={{}}
       />
     </View>
   );

@@ -52,6 +52,7 @@ const NotifyList = ({navigation, onPresscallAllPost, menu}) => {
           flex: 1,
           backgroundColor: '#ccffbd',
           justifyContent: 'center',
+          alignItems: 'center',
           width: '10%',
         }}>
         <Text
@@ -108,35 +109,38 @@ const NotifyList = ({navigation, onPresscallAllPost, menu}) => {
           ) : (
             ''
           )}
-          <View
-            style={{
-              // backgroundColor: 'red',
-              flexDirection: 'row',
-              width: '100%',
-              paddingHorizontal: SIZES.padding,
-            }}>
-            <Image
-              source={{
-                uri: `${DATABASE_URL_IMG}/cuisine/${item?.cuisine.image}`,
-                // cache: 'force-cache',
-              }}
-              resizeMode="contain"
+          <TouchableOpacity
+            onPress={() => navigation.navigate('MyRecipesScreen')}>
+            <View
               style={{
-                width: 70,
                 // backgroundColor: 'red',
-                height: 70,
-              }}
-            />
-            <Text
-              style={{
-                ...FONTS.body4,
-                color: 'black',
-                flex: 1,
-                // backgroundColor: 'blue',
+                flexDirection: 'row',
+                width: '100%',
+                paddingHorizontal: SIZES.padding,
               }}>
-              {item.content}
-            </Text>
-          </View>
+              <Image
+                source={{
+                  uri: `${DATABASE_URL_IMG}/cuisine/${item?.cuisine.image}`,
+                  // cache: 'force-cache',
+                }}
+                resizeMode="contain"
+                style={{
+                  width: 70,
+                  // backgroundColor: 'red',
+                  height: 70,
+                }}
+              />
+              <Text
+                style={{
+                  ...FONTS.body4,
+                  color: 'black',
+                  flex: 1,
+                  // backgroundColor: 'blue',
+                }}>
+                {item.content}
+              </Text>
+            </View>
+          </TouchableOpacity>
           <View
             style={{
               position: 'absolute',

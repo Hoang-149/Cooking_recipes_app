@@ -50,6 +50,7 @@ const CreateRecipe = ({navigation}) => {
   const [steps, setSteps] = useState({value: '', error: ''});
   const [urlWebsite, setUrlWebsite] = useState({value: '', error: ''});
   const [urlYoutube, setUrlYoutube] = useState({value: '', error: ''});
+  // console.log(urlYoutube.value);
 
   const [checkValue, setCheckValue] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -78,25 +79,25 @@ const CreateRecipe = ({navigation}) => {
     }
   }, [category]);
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     setCurrentStep(1);
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setCurrentStep(0);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDisplayAnim(false);
-      // console.log('timeout');
-    }, 4500);
-    setName('');
+    // const timeout = setTimeout(() => {
+    //   setDisplayAnim(false);
+    //   // console.log('timeout');
+    // }, 4500);
+    setName({value: '', error: ''});
     setSelectedDiff('Dễ');
-    setDuration('');
-    setIngredients('');
-    setSteps('');
-    setUrlWebsite('');
-    setUrlYoutube('');
+    setDuration({value: '', error: ''});
+    setIngredients({value: '', error: ''});
+    setSteps({value: '', error: ''});
+    setUrlWebsite({value: '', error: ''});
+    setUrlYoutube({value: '', error: ''});
   }, [displayAnim]);
 
   const onNextStep1 = () => {
@@ -134,7 +135,7 @@ const CreateRecipe = ({navigation}) => {
       setIngredients({...ingredients, error: ingredientsError});
       setSteps({...steps, error: stepsError});
       setUrlWebsite({...urlWebsite, error: urlWebsiteError});
-      setUrlYoutube({...urlYoutube, error: urlYoutubeError});
+      // setUrlYoutube({...urlYoutube, error: urlYoutubeError});
       return;
     }
 
@@ -177,15 +178,19 @@ const CreateRecipe = ({navigation}) => {
         if (response.data.status === 200) {
           console.log(response.data.message);
           setImage('');
-          setName('');
-          setDuration('');
-          setIngredients('');
-          setSteps('');
-          setUrlWebsite('');
-          setUrlYoutube('');
+          setName({value: '', error: ''});
+          setDuration({value: '', error: ''});
+          setIngredients({value: '', error: ''});
+          setSteps({value: '', error: ''});
+          setUrlWebsite({value: '', error: ''});
+          setUrlYoutube({value: '', error: ''});
 
-          setCurrentStep(1);
-          setDisplayAnim(true);
+          setCurrentStep(0);
+          navigation.navigate('MyRecipesScreen');
+
+          // setDisplayAnim(true);
+          // const timeout = setTimeout(() => {
+          // }, 4600);
           ToastAndroid.show('Thêm Công Thức Thành Công', ToastAndroid.SHORT);
         } else {
           console.log(response.data.message);
@@ -246,6 +251,8 @@ const CreateRecipe = ({navigation}) => {
                   opacity: 0.9,
                   width: '100%',
                   height: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   // display: 'flex',
                   flex: 1,
                   zIndex: 999,
@@ -256,7 +263,7 @@ const CreateRecipe = ({navigation}) => {
                   speed={0.5}
                   // duration={5000}
                   loop={true}
-                  style={{height: '100%', alignSelf: 'center'}}
+                  style={{height: '50%', marginTop: 50, alignItems: 'center'}}
                   source={require('../assets/anim/foodanimation.json')}
                 />
               </View>
@@ -605,9 +612,9 @@ const CreateRecipe = ({navigation}) => {
                       </Text>
                       <TextInput
                         value={urlYoutube.value}
-                        onChangeText={text =>
-                          setUrlYoutube({value: text, error: ''})
-                        }
+                        // onChangeText={text =>
+                        //   setUrlYoutube({value: text, error: ''})
+                        // }
                         error={!!urlYoutube.error}
                         errorText={urlYoutube.error}
                         autoCapitalize="none"

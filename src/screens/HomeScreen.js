@@ -152,7 +152,7 @@ const HomeScreen = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <HomeHeader avatar={user?.image} />
+      <HomeHeader user={user} />
 
       <View
         style={{

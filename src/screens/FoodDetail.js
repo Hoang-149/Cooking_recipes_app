@@ -65,6 +65,10 @@ const FoodDetail = ({navigation, route}) => {
     getFavourite();
   }, [item?.id]);
 
+  useEffect(() => {
+    callAllComment();
+  }, []);
+
   let nameFavorite = `${user.id}${idCuisine ? idCuisine : item?.id}`;
   // console.log(nameFavorite);
 
@@ -140,6 +144,33 @@ const FoodDetail = ({navigation, route}) => {
 
       setAllComment(newCommentList);
     });
+  };
+
+  const handleCommentDeleted = deletedCommentId => {
+    // Xóa comment từ danh sách comments
+    const updatedComments = allComment.filter(
+      comment => comment.id !== deletedCommentId,
+    );
+    setAllComment(updatedComments);
+  };
+
+  // Xử lý việc xóa comment và reply comment
+  const handleReplyCommentDeleted = (
+    deletedCommentId,
+    deletedReplyCommentId,
+  ) => {
+    const updatedComments = allComment.map(comment => {
+      if (comment.id === deletedCommentId) {
+        // Xóa reply comment từ comment chính
+        const updatedReplies = comment.reply_comments.filter(
+          reply => reply.id !== deletedReplyCommentId,
+        );
+        return {...comment, reply_comments: updatedReplies};
+      }
+      return comment;
+    });
+
+    setAllComment(updatedComments);
   };
 
   const onPressUser = () => {
@@ -536,6 +567,8 @@ const FoodDetail = ({navigation, route}) => {
                 comment={comment}
                 callAllComment={callAllComment}
                 userCuisine={item?.user?.id}
+                onCommentDeleted={handleCommentDeleted}
+                onReplyCommentDeleted={handleReplyCommentDeleted}
               />
             ))}
 
