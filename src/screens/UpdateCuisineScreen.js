@@ -182,6 +182,7 @@ const UpdateCuisineScreen = ({navigation, route}) => {
     formData.append('status', stt);
 
     // console.log(formData);
+    // setDisplayAnim(true);
 
     FoodApi.postUpdateCuisine(item.id, formData)
       .then(response => {
@@ -200,7 +201,7 @@ const UpdateCuisineScreen = ({navigation, route}) => {
             // setDisplayAnim(false);
             // console.log('timeout');
             navigation.navigate('MyRecipesScreen');
-          }, 4500);
+          }, 4100);
         } else {
           console.log(response.data.message);
           ToastAndroid.show(
@@ -262,6 +263,8 @@ const UpdateCuisineScreen = ({navigation, route}) => {
                   // display: 'flex',
                   flex: 1,
                   zIndex: 999,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}>
                 <LottieView
                   // progress={progress}
@@ -269,7 +272,7 @@ const UpdateCuisineScreen = ({navigation, route}) => {
                   speed={0.5}
                   // duration={5000}
                   loop={true}
-                  style={{height: '100%', alignSelf: 'center'}}
+                  style={{height: 200, alignSelf: 'center'}}
                   source={require('../assets/anim/foodanimation.json')}
                 />
               </View>

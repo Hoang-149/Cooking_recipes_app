@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, ToastAndroid} from 'react-native';
 import {Text} from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
@@ -49,6 +49,7 @@ const SignUp = ({navigation}) => {
         console.log(response.data);
         if (response.data.status === 200) {
           console.log(response.data.message);
+          ToastAndroid.show('Đăng Kí Thành Công', ToastAndroid.SHORT);
           navigation.navigate('LoginScreen');
         } else {
           console.log(response.data.message);

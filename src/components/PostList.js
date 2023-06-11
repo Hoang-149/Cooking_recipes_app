@@ -52,7 +52,7 @@ const PostList = ({
         // const newComment = response.data.comment;
 
         getCommentPost(postId);
-        callAllPost();
+        // callAllPost();
       } else {
         ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
       }

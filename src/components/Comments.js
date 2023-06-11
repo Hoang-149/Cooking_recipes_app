@@ -219,13 +219,20 @@ const Comments = ({
           paddingVertical: SIZES.padding,
           borderRadius: 10,
         }}>
-        <Image
-          source={{
-            uri: `${DATABASE_URL_IMG}/users/${comment.user.image}`,
-            // cache: 'force-cache',
-          }}
-          style={{width: 35, height: 35, borderRadius: SIZES.radius}}
-        />
+        {comment?.user?.image ? (
+          <Image
+            source={{
+              uri: `${DATABASE_URL_IMG}/users/${comment.user.image}`,
+              // cache: 'force-cache',
+            }}
+            style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+          />
+        ) : (
+          <Image
+            source={icons.user}
+            style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+          />
+        )}
         <View
           style={{
             flex: 1,
@@ -385,13 +392,20 @@ const Comments = ({
               paddingVertical: SIZES.padding,
               borderRadius: 10,
             }}>
-            <Image
-              source={{
-                uri: `${DATABASE_URL_IMG}/users/${reply.user?.image}`,
-                // cache: 'force-cache',
-              }}
-              style={{width: 35, height: 35, borderRadius: SIZES.radius}}
-            />
+            {reply?.user?.image ? (
+              <Image
+                source={{
+                  uri: `${DATABASE_URL_IMG}/users/${reply?.user?.image}`,
+                  // cache: 'force-cache',
+                }}
+                style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+              />
+            ) : (
+              <Image
+                source={icons.user}
+                style={{width: 35, height: 35, borderRadius: SIZES.radius}}
+              />
+            )}
             <View
               style={{
                 flex: 1,

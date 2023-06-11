@@ -66,6 +66,15 @@ const CreateRecipe = ({navigation}) => {
   const [selectedImages, setSelectedImages] = useState([]);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // do something
+      setCurrentStep(0);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     FoodApi.getAllCategory().then(response => {
       const ListCategory = response.data.category;
       // console.log(ListCategory);
@@ -186,12 +195,12 @@ const CreateRecipe = ({navigation}) => {
           setUrlYoutube({value: '', error: ''});
 
           setCurrentStep(0);
+          ToastAndroid.show('Thêm Công Thức Thành Công', ToastAndroid.SHORT);
           navigation.navigate('MyRecipesScreen');
 
           // setDisplayAnim(true);
           // const timeout = setTimeout(() => {
           // }, 4600);
-          ToastAndroid.show('Thêm Công Thức Thành Công', ToastAndroid.SHORT);
         } else {
           console.log(response.data.message);
           ToastAndroid.show(

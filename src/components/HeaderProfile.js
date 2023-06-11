@@ -81,32 +81,6 @@ const HeaderProfile = ({navigation, textHeader, search, valueSearch}) => {
           </TouchableOpacity>
         </View>
       ) : (
-        // <View
-        //   style={{
-        //     backgroundColor: 'white',
-        //     flexDirection: 'row',
-        //     flex: 1,
-        //     paddingLeft: SIZES.padding,
-        //   }}>
-        //   <TouchableOpacity onPress={() => navigation.goBack()}>
-        //     <Image
-        //       source={icons.back}
-        //       resizeMode="contain"
-        //       style={{width: 25, height: 25, tintColor: COLORS.black}}
-        //     />
-        //   </TouchableOpacity>
-        //   <Text
-        //     style={{
-        //       ...FONTS.h4,
-        //       fontWeight: 'bold',
-        //       flex: 1,
-        //       textAlign: 'center',
-        //       paddingRight: 25 + SIZES.padding,
-        //     }}>
-        //     {textHeader}
-        //   </Text>
-        // </View>
-
         <View
           style={{
             flexDirection: 'row',

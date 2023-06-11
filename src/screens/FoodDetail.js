@@ -69,8 +69,7 @@ const FoodDetail = ({navigation, route}) => {
     callAllComment();
   }, []);
 
-  let nameFavorite = `${user.id}${idCuisine ? idCuisine : item?.id}`;
-  // console.log(nameFavorite);
+  let nameFavorite = `${user?.id}${idCuisine ? idCuisine : item?.id}`;
 
   const getFavourite = () => {
     FoodApi.getFavourite(nameFavorite).then(response => {
@@ -287,20 +286,41 @@ const FoodDetail = ({navigation, route}) => {
               }}>
               {item?.name}
             </Text>
-            <TouchableOpacity
-              style={{alignItems: 'center', alignSelf: 'center'}}
-              onPress={() => {
-                onPressFavourite(item?.id);
-              }}>
-              <Image
-                source={icons.like}
-                style={{
-                  width: 28,
-                  height: 28,
-                  tintColor: favourite ? 'red' : COLORS.darkgray,
-                }}
-              />
-            </TouchableOpacity>
+
+            {user?.id ? (
+              <TouchableOpacity
+                style={{alignItems: 'center', alignSelf: 'center'}}
+                onPress={() => {
+                  onPressFavourite(item?.id);
+                }}>
+                <Image
+                  source={icons.like}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    tintColor: favourite ? 'red' : COLORS.darkgray,
+                  }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={{alignItems: 'center', alignSelf: 'center'}}
+                onPress={() => {
+                  ToastAndroid.show(
+                    'Bạn cần phải đăng nhập',
+                    ToastAndroid.SHORT,
+                  );
+                }}>
+                <Image
+                  source={icons.like}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    tintColor: COLORS.darkgray,
+                  }}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           {item?.youtubeURL || item?.websiteURL ? (
             <View
@@ -571,88 +591,68 @@ const FoodDetail = ({navigation, route}) => {
                 onReplyCommentDeleted={handleReplyCommentDeleted}
               />
             ))}
-
-            <View>
-              <TextInput
-                placeholder="Hãy viết một điều gì đó"
-                multiline={true}
-                value={comment.value}
-                onChangeText={text => setComment({value: text, error: ''})}
-                error={!!comment.error}
-                errorText={comment.error}
-                autoCapitalize="none"
-                borderBottomColor="green"
-                borderBottomWidth={3}
-                borderLeftColor="green"
-                borderLeftWidth={3}
-                borderRightColor="green"
-                borderRightWidth={3}
-                style={{
-                  padding: 10,
-                  ...FONTS.body3,
-                  height: 100,
-                  borderTopColor: COLORS.darkgray,
-                  borderWidth: 1,
-                  textAlignVertical: 'top',
-                }}
-              />
-              <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                  bottom: 10,
-                  right: 8,
-                  alignItems: 'center',
-                  // alignSelf: 'center',
-                }}
-                onPress={onCommentPressed}>
-                <Image
-                  source={icons.send}
+            {user?.id ? (
+              <View>
+                <TextInput
+                  placeholder="Hãy viết một điều gì đó"
+                  multiline={true}
+                  value={comment.value}
+                  onChangeText={text => setComment({value: text, error: ''})}
+                  error={!!comment.error}
+                  errorText={comment.error}
+                  autoCapitalize="none"
+                  borderBottomColor="green"
+                  borderBottomWidth={3}
+                  borderLeftColor="green"
+                  borderLeftWidth={3}
+                  borderRightColor="green"
+                  borderRightWidth={3}
                   style={{
-                    width: 24,
-                    height: 24,
-                    tintColor: comment.value ? 'blue' : COLORS.secondary,
+                    padding: 10,
+                    ...FONTS.body3,
+                    height: 100,
+                    borderTopColor: COLORS.darkgray,
+                    borderWidth: 1,
+                    textAlignVertical: 'top',
                   }}
                 />
-              </TouchableOpacity>
-              {/* <View
-                style={{
-                  flex: 10,
-                  marginTop: SIZES.padding,
-                  flexDirection: 'row',
-                }}>
-                <View style={{flex: 8}}></View>
-                <TouchableOpacity onPress={onCommentPressed}>
-                  <View
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 8,
+                    alignItems: 'center',
+                    // alignSelf: 'center',
+                  }}
+                  onPress={onCommentPressed}>
+                  <Image
+                    source={icons.send}
                     style={{
-                      alignItems: 'flex-end',
-                      padding: SIZES.padding,
-                      borderRadius: SIZES.padding * 0.5,
-                      backgroundColor: COLORS.primary,
-                      backgroundColor: comment.value
-                        ? COLORS.primary
-                        : COLORS.secondary,
-                    }}>
-                    <Text
-                      style={{
-                        ...FONTS.body3,
-                        color: 'white',
-                      }}>
-                      Bình luận
-                    </Text>
-                  </View>
+                      width: 24,
+                      height: 24,
+                      tintColor: comment.value ? 'blue' : COLORS.secondary,
+                    }}
+                  />
                 </TouchableOpacity>
-              </View> */}
+              </View>
+            ) : (
+              ''
+            )}
+          </View>
+          {user?.id ? (
+            <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
+              <CustomButton
+                text={'Chia sẻ'}
+                onPressButton={() =>
+                  navigation.navigate('CreatePostScreen', {
+                    cuisineCurrent: item,
+                  })
+                }
+              />
             </View>
-          </View>
-
-          <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
-            <CustomButton
-              text={'Chia sẻ'}
-              onPressButton={() =>
-                navigation.navigate('CreatePostScreen', {cuisineCurrent: item})
-              }
-            />
-          </View>
+          ) : (
+            ''
+          )}
         </View>
       </Animated.ScrollView>
     );

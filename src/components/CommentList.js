@@ -19,7 +19,7 @@ const CommentList = ({postId, allComment, onCommentDeleted, idUserPost}) => {
 
   const comments = allComment.filter(comment => comment.postId === postId);
 
-  console.log('comments', comments);
+  // console.log('comments', comments);
 
   const [displayReplay, setDisplayReplay] = useState('none');
   const [displayUpdate, setDisplayUpdate] = useState('none');
@@ -46,8 +46,8 @@ const CommentList = ({postId, allComment, onCommentDeleted, idUserPost}) => {
                 console.log(response.data.message);
                 ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
               }
+              onCommentDeleted(postId);
             });
-            onCommentDeleted(id_comment);
           } else {
             ToastAndroid.show(
               'Bạn không thể xóa bình luận',

@@ -55,7 +55,7 @@ const CommunityScreen = ({navigation}) => {
     FoodApi.getCommentPost(postId).then(response => {
       const newCommentList = response.data.comments;
 
-      console.log(response.data.comments);
+      // console.log(response.data.comments);
 
       setAllComment(prevComments => {
         const newPrev = prevComments.filter(item => item.postId !== postId);
@@ -65,20 +65,9 @@ const CommunityScreen = ({navigation}) => {
     });
   };
 
-  const handleCommentDeleted = deletedCommentId => {
-    // Xóa comment từ danh sách comments
-    // const updatedComments = allComment.filter(
-    //   comment => comment.id !== deletedCommentId,
-    // );
-    // console.log(deletedCommentId);
-    // setAllComment(prevComments => {
-    //   const newPrev = prevComments.filter(
-    //     item => item.postId !== deletedCommentId,
-    //   );
-
-    //   return [...newPrev];
-    // });
-    callAllPost();
+  const handleCommentDeleted = postId => {
+    // Gọi lại hàm getCommentPost để cập nhật danh sách bình luận
+    getCommentPost(postId);
   };
 
   return (
@@ -121,7 +110,7 @@ const CommunityScreen = ({navigation}) => {
               backgroundColor: 'white',
               marginBottom: 30,
             }}>
-            Thông Báo
+            Cộng Đồng
           </Text>
           <View
             style={{

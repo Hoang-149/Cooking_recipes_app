@@ -80,36 +80,6 @@ const UpdatePostScreen = ({navigation, route}) => {
       }}>
       <HeaderProfile navigation={navigation} textHeader={'Chia Sẻ'} />
 
-      {displayAnim ? (
-        <View
-          style={{
-            // marginTop: SIZES.padding2 * 0.5,
-            // width: '100%',
-            position: 'absolute',
-            backgroundColor: 'white',
-            opacity: 0.9,
-            width: '100%',
-            height: '100%',
-            marginHorizontal: SIZES.padding,
-            justifyContent: 'center',
-            // display: 'flex',
-            flex: 1,
-            zIndex: 999,
-          }}>
-          <LottieView
-            // progress={progress}
-            autoPlay
-            speed={0.5}
-            // duration={5000}
-            loop={true}
-            style={{height: '80%', alignSelf: 'center'}}
-            source={require('../assets/anim/done.json')}
-          />
-        </View>
-      ) : (
-        ''
-      )}
-
       <View
         style={{
           marginTop: SIZES.padding,
@@ -209,6 +179,35 @@ const UpdatePostScreen = ({navigation, route}) => {
         </View>
         <View style={{margin: SIZES.padding * 2, marginTop: 30}}>
           <CustomButton text={'Cập Nhật'} onPressButton={() => onPostPress()} />
+          {displayAnim ? (
+            <View
+              style={{
+                marginTop: 100,
+                // width: '100%',
+                // position: 'absolute',
+                // backgroundColor: 'red',
+                // opacity: 0.9,
+                // width: '100%',
+                // height: '100%',
+                marginHorizontal: SIZES.padding,
+                justifyContent: 'center',
+                // display: 'flex',
+                flex: 1,
+                zIndex: 999,
+              }}>
+              <LottieView
+                // progress={progress}
+                autoPlay
+                speed={0.5}
+                // duration={5000}
+                loop={true}
+                style={{height: 200, alignSelf: 'center'}}
+                source={require('../assets/anim/done.json')}
+              />
+            </View>
+          ) : (
+            ''
+          )}
         </View>
       </View>
     </SafeAreaView>
